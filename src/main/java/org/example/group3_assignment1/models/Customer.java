@@ -9,6 +9,7 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String preference;
+    private Waiter assignedWaiter;
 
     public int getCustomerId() {
         return CustomerId;
@@ -40,6 +41,11 @@ public class Customer {
 
     public String getPreference() {
         return preference;
+    }
+
+    @Autowired
+    public Customer(Waiter assignedWaiter){
+        this.assignedWaiter = assignedWaiter;
     }
 
 
