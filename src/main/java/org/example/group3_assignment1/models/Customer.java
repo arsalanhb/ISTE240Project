@@ -8,7 +8,7 @@ public class Customer {
     private int CustomerId;
     private String firstName;
     private String lastName;
-    private String preference
+    private String preference;
 
     public int getCustomerId() {
         return CustomerId;
@@ -34,11 +34,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public String setPreference(String preference) {
+    public void setPreference(String preference) {
         this.preference = preference;
     }
 
-    public String getPreference(String preference) {
+    public String getPreference() {
         return preference;
     }
 
@@ -49,6 +49,7 @@ public class Customer {
         this.CustomerId = 1;
         this.firstName = "Munzier";
         this.lastName = "Kashef";
+        this.preference = "rice";
         
     }
 }

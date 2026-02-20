@@ -11,6 +11,8 @@ public class Dish {
     private double price;
     private String category;
     private boolean available;
+
+
     private Chef currentChef;
 
     public String getDishName() {
@@ -51,6 +53,14 @@ public class Dish {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public Chef getCurrentChef() {
+        return currentChef;
+    }
+
+    public void setCurrentChef(Chef currentChef) {
+        this.currentChef = currentChef;
     }
 
     @Autowired
