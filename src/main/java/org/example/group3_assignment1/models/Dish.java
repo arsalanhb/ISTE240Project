@@ -1,6 +1,7 @@
 package org.example.group3_assignment1.models;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,6 +11,7 @@ public class Dish {
     private double price;
     private String category;
     private boolean available;
+    private Chef currentChef;
 
     public String getDishName() {
         return dishName;
@@ -49,6 +51,11 @@ public class Dish {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    @Autowired
+    public Dish(Chef cf){
+        this.currentChef = cf;
     }
 
     @PostConstruct
