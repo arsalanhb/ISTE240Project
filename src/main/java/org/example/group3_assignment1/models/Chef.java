@@ -3,7 +3,6 @@ package org.example.group3_assignment1.models;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Chef {
     private int chefId;
     private String firstName;
@@ -11,6 +10,15 @@ public class Chef {
     private String specialty;
     private double yrsOfExperience;
     private double salary;
+
+    public Chef(int chefId, String firstName, String lastName, double salary, String specialty, double yrsOfExperience) {
+        this.chefId = chefId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.salary = salary;
+        this.specialty = specialty;
+        this.yrsOfExperience = yrsOfExperience;
+    }
 
     public int getChefId() {
         return chefId;
@@ -60,13 +68,5 @@ public class Chef {
         this.salary = salary;
     }
 
-    @PostConstruct
-    public void init(){
-        this.chefId = 1;
-        this.firstName = "Munzier";
-        this.lastName = "Kashef";
-        this.specialty = "Egyptian";
-        this.yrsOfExperience = 10;
-        this.salary = 5000;
-    }
+
 }

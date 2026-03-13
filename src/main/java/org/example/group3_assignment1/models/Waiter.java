@@ -4,12 +4,19 @@ package org.example.group3_assignment1.models;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Waiter {
     private int id;
     private String firstName;
     private String lastName;
     private double salary;
+
+    public Waiter(int id, String firstName, String lastName, double salary){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.salary = salary;
+    }
+
 
     public int getId() {
         return id;
@@ -43,12 +50,5 @@ public class Waiter {
         this.salary = salary;
     }
 
-    @PostConstruct
-    public void init(){
-        this.id = 5;
-        this.firstName = "Adham";
-        this.lastName = "Khalifa";
-        this.salary = 1000;
 
-    }
 }
