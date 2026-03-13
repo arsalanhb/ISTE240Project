@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Dish {
     private String dishName;
     private String description;
@@ -12,6 +11,14 @@ public class Dish {
     private String category;
     private boolean available;
 
+    public Dish(boolean available, String category, Chef currentChef, String description, String dishName, double price) {
+        this.available = available;
+        this.category = category;
+        this.currentChef = currentChef;
+        this.description = description;
+        this.dishName = dishName;
+        this.price = price;
+    }
 
     private Chef currentChef;
 
@@ -63,18 +70,5 @@ public class Dish {
         this.currentChef = currentChef;
     }
 
-    @Autowired
-    public Dish(Chef cf){
-        this.currentChef = cf;
-    }
 
-    @PostConstruct
-    public void init(){
-        this.dishName = "Mulukhiya";
-        this.description = "Mulukhiya is a traditional Egyptian dish made from jute leaves, " +
-                "cooked with garlic and coriander, and typically served with rice and chicken.";
-        this.price = 15;
-        this.category = "Main Course";
-        this.available = true;
-    }
 }

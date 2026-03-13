@@ -4,13 +4,20 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Customer {
     private int CustomerId;
     private String firstName;
     private String lastName;
     private String preference;
     private Waiter assignedWaiter;
+
+    public Customer(Waiter assignedWaiter, int customerId, String firstName, String lastName, String preference) {
+        this.assignedWaiter = assignedWaiter;
+        CustomerId = customerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.preference = preference;
+    }
 
     public int getCustomerId() {
         return CustomerId;
@@ -44,19 +51,6 @@ public class Customer {
         return preference;
     }
 
-    @Autowired
-    public Customer(Waiter assignedWaiter){
-        this.assignedWaiter = assignedWaiter;
-    }
 
 
-
-    @PostConstruct
-    public void init(){
-        this.CustomerId = 1;
-        this.firstName = "Munzier";
-        this.lastName = "Kashef";
-        this.preference = "rice";
-        
-    }
 }
