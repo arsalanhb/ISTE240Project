@@ -6,55 +6,68 @@
     <style>
         body {
             font-family: sans-serif;
-            max-width: 400px;
+            max-width: 500px;
             margin: 40px auto;
             padding: 20px;
             background-color: #383131;
             border: 1px solid #eee;
             border-radius: 10px;
             line-height: 1.5;
-	        color: #fdfdfd;
-        }
-        h1 {
-            color: #d35400;
-            text-align: center;
-        }
-        hr {
-            border: 0;
-            border-top: 1px solid #ddd;
-        }
-        ul {
-            padding-left: 20px;
-        }
-        .description {
-            font-style: italic;
             color: #fdfdfd;
-            text-align: center; }
-
-
-
+        }
+        h1 { color: #d35400; text-align: center; }
+        hr { border: 0; border-top: 1px solid #ddd; }
+        ul { padding-left: 20px; }
+        .description { font-style: italic; color: #fdfdfd; text-align: center; }
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .nav-links a {
+            display: block;
+            background-color: #d35400;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-links a:hover { background-color: #b94600; }
     </style>
 </head>
 <body>
+<h1>🥙 Kebab Shop</h1>
+<p class="description">
+    Authentic Levantine flavors in the heart of DSO. We specialize in slow-roasted meats,
+    hand-stretched pita, and the creamiest hummus in Dubai.
+</p>
+<hr>
+<h3>Menu</h3>
+<ul>
+    <li><b>Beef Doner</b> - AED 12</li>
+    <li><b>Chicken Shish</b> - AED 11</li>
+    <li><b>Falafel Wrap</b> - AED 9</li>
+    <li><b>Hummus & Pita</b> - AED 5</li>
+</ul>
+<hr>
+<h3>Explore Our Restaurant</h3>
+<div class="nav-links">
+    <a href="/dish">View Dishes</a>
+    <a href="/dish/add">Add a Dish</a>
+    <a href="/chef">View Chefs</a>
 
-    <h1>🥙 Kebab Shop</h1>
-    <p class="description">
-        Authentic Levantine flavors in the heart of DSO. We specialize in slow-roasted meats, hand-stretched pita, and the creamiest hummus in Dubai.
-    </p>
-    <hr>
-    <h3>Menu</h3>
-    <ul>
-        <li><b>Beef Doner</b> - AED 12</li>
-        <li><b>Chicken Shish</b> - AED 11</li>
-        <li><b>Falafel Wrap</b> - AED 9</li>
-        <li><b>Hummus & Pita</b> - AED 5</li>
-    </ul>
-    <hr>
-    <h3>Find Us</h3>
-    <p>
-        Dubai Silicon Oasis - Souq Extra<br>
-        <b>Open:</b> 9am - 12PM
-    </p>
-    <p><small>Call to order: 050 1234567</small></p>
+    <a href="/waiter">View Waiters</a>
+    <a href="/customer">View Customers</a>
+</div>
+<hr>
+<h3>Find Us</h3>
+<p>
+    Dubai Silicon Oasis - Souq Extra<br>
+    <b>Open:</b> 9am - 12PM
+</p>
+<p><small>Call this number to order: 050 1234567</small></p>
 </body>
 </html>
