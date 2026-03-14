@@ -13,7 +13,7 @@ public class Customer {
 
     public Customer(Waiter assignedWaiter, int customerId, String firstName, String lastName, String preference) {
         this.assignedWaiter = assignedWaiter;
-        CustomerId = customerId;
+        this.CustomerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.preference = preference;

@@ -23,6 +23,10 @@ public class RestaurantController {
     }
 
 
+    @GetMapping("/customer")
+    public String customer(){
+        return "customer";
+    }
     @GetMapping("/customer/add")
     public String newCus(){
         return "form";
@@ -35,9 +39,14 @@ public class RestaurantController {
     }
 
     @PostMapping("/customer/add")
-    public String addCustomer(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String preference){
-        Customer newCus = new Customer(restService.findAllWaiters().get(restService.findAllWaiters().size() - 1), restService.findAllCustomers().size() + 1, firstName, lastName, preference);
+    public String addCustomer(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String preference) {
+        Customer newCus = new Customer(
+                restService.findAllWaiters().get(restService.findAllWaiters().size() - 1),
+                restService.findAllCustomers().size() + 1,
+                firstName, lastName, preference
+        );
         this.restService.addCustomer(newCus);
-        return "success";
+        return "redirect:/add/success/customer";
     }
+
 }
