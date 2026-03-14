@@ -3,6 +3,8 @@ package org.example.group3_assignment1.models;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 public class Chef {
     private int chefId;
     private String firstName;
@@ -10,13 +12,15 @@ public class Chef {
     private String specialty;
     private double yrsOfExperience;
     private double salary;
+    private List<Dish> dishList;
 
-    public Chef(int chefId, String firstName, String lastName, double salary, String specialty, double yrsOfExperience) {
+    public Chef(int chefId, String firstName, String lastName, double salary, String specialty, List<Dish> dishList,double yrsOfExperience) {
         this.chefId = chefId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.salary = salary;
         this.specialty = specialty;
+        this.dishList = dishList;
         this.yrsOfExperience = yrsOfExperience;
     }
 

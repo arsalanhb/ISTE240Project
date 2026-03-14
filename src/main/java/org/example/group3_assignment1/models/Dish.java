@@ -11,16 +11,14 @@ public class Dish {
     private String category;
     private boolean available;
 
-    public Dish(boolean available, String category, Chef currentChef, String description, String dishName, double price) {
+    public Dish(boolean available, String category, String description, String dishName, double price) {
         this.available = available;
         this.category = category;
-        this.currentChef = currentChef;
         this.description = description;
         this.dishName = dishName;
         this.price = price;
     }
 
-    private Chef currentChef;
 
     public String getDishName() {
         return dishName;
@@ -62,13 +60,7 @@ public class Dish {
         this.available = available;
     }
 
-    public Chef getCurrentChef() {
-        return currentChef;
-    }
 
-    public void setCurrentChef(Chef currentChef) {
-        this.currentChef = currentChef;
-    }
 
 
 }
