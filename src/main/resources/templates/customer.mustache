@@ -18,11 +18,11 @@
     <tbody>
     {{#customerList}}
         <tr>
-            <td>{{CustomerId}}</td>
             <td>{{firstName}}</td>
             <td>{{lastName}}</td>
+            <td>{{assignedWaiter.firstName}} {{assignedWaiter.lastName}}</td>
+            <td>{{CustomerId}}</td>
             <td>{{preference}}</td>
-            <td>{{assignedWaiter}}</td>
         </tr>
     {{/customerList}}
     </tbody>
