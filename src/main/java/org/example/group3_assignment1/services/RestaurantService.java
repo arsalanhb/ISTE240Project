@@ -71,9 +71,26 @@ public class RestaurantService {
     public List<Chef> findAllChefs(){
         return this.chefList;
     }
+    public List<Dish> findAllDishes(){
+        List<Dish> allDishes = new ArrayList<>();
+        allDishes.addAll(this.mexDishList);
+        allDishes.addAll(this.italDishList);
+        return allDishes;
+    }
 
     public void addCustomer(Customer newCus){
         this.customerList.add(newCus);
+    }
+    public void addChef(Chef newChef){
+        this.chefList.add(newChef);
+    }
+    public void addDish(Dish newDish){
+        if(newDish.getCategory().equalsIgnoreCase("Mexican")){
+            this.mexDishList.add(newDish);
+        }
+        else if(newDish.getCategory().equalsIgnoreCase("Italian")){
+            this.italDishList.add(newDish);
+        }
     }
 
 
