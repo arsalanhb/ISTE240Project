@@ -11,16 +11,22 @@ import java.util.List;
 @Service
 public class RestaurantService {
     private List<Waiter> waiterList= new ArrayList<>();
-    private Chef mainChef = new Chef(1, "Gordon", "Ramsey", 40000.0, "British", 12);
+    private List<Chef> chefList = new ArrayList<>();
     private List<Customer> customerList = new ArrayList<>();
-    private List<Dish> dishList = new ArrayList<>();
+    private List<Dish> mexDishList = new ArrayList<>();
+    private List<Dish> italDishList = new ArrayList<>();
+    private List<Dish> pakDishList = new ArrayList<>();
 
 
     public RestaurantService(){
         Waiter waiter1 = new Waiter(1, "John", "Doe", 20000.0);
         Waiter waiter2 = new Waiter(2, "Jane", "Doe", 19000.0);
+        Waiter waiter3 = new Waiter(2, "Jack", "Doe", 19000.0);
+        Waiter waiter4 = new Waiter(2, "Jenny", "Doe", 19000.0);
         waiterList.add(waiter1);
         waiterList.add(waiter2);
+        waiterList.add(waiter3);
+        waiterList.add(waiter4);
 
         Customer cus1 = new Customer(waiter1, 1, "Ahmed", "Badr", "Mexican");
         Customer cus2 = new Customer(waiter2, 2, "Maryam", "Bassem", "Arabic");
@@ -29,10 +35,28 @@ public class RestaurantService {
         customerList.add(cus2);
         customerList.add(cus3);
 
-        Dish dish1 = new Dish(true, "Mexican", mainChef, "Beef, Lettuce, Tomato put in hard taco shell", "Taco",20);
-        Dish dish2 = new Dish(true, "Italian", mainChef, "Spaghetti and tomato sauce with shredded cheese", "Spaghetti",20);
-        dishList.add(dish1);
-        dishList.add(dish2);
+        Dish dish1 = new Dish(true, "Mexican","Beef, Lettuce, Tomato put in hard taco shell", "Taco",20);
+        Dish dish2 = new Dish(true, "Mexican", "Rolled tortillas stuffed with chicken, beef, or cheese, topped with red or green sauce", "Enchiladas", 22);
+        Dish dish3 = new Dish(true, "Mexican","Flour tortilla filled with melted cheese and your choice of meat, folded in half and grilled", "Quesadilla", 15);
+        Dish dish4 = new Dish(true, "Mexican", "Sizzling grilled meat, peppers, and onions, served with tortillas and various toppings", "Fajitas", 25);
+
+        mexDishList.add(dish1);
+        mexDishList.add(dish2);
+        mexDishList.add(dish3);
+        mexDishList.add(dish4);
+
+        Dish dish5 = new Dish(true, "Italian","Pasta served with a rich meat sauce made from ground beef, tomatoes, onions, and garlic", "Spaghetti Bolognese", 18);
+        Dish dish6 = new Dish(true, "Italian", "Layered pasta sheets with a combination of meat sauce, béchamel, and cheese", "Lasagna", 22);
+        Dish dish7 = new Dish(true, "Italian", "Thin crust pizza topped with fresh mozzarella, basil, and tomato sauce", "Margherita Pizza", 15);
+
+        italDishList.add(dish5);
+        italDishList.add(dish6);
+        italDishList.add(dish7);
+
+        Chef mexChef = new Chef(1, "Gordon", "Ramsey", 40000.0, "Mexican", mexDishList,12);
+        Chef italChef = new Chef(2, "Francesco", "Ritza", 40000.0, "Italian", italDishList,12);
+        chefList.add(mexChef);
+        chefList.add(italChef);
 
     }
 
@@ -42,21 +66,17 @@ public class RestaurantService {
     public List<Customer> findAllCustomers(){
         return this.customerList;
     }
-    public List<Dish> findAllDishes(){
-        return this.dishList;
-    }
 
-    public Chef getChef(){
-        return this.mainChef;
+
+    public List<Chef> findAllChefs(){
+        return this.chefList;
     }
 
     public void addCustomer(Customer newCus){
         this.customerList.add(newCus);
     }
 
-    public void addDish(Dish newDish){
-        this.dishList.add(newDish);
-    }
+
 
 
 }
