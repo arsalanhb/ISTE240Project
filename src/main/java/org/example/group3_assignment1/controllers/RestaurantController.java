@@ -24,7 +24,7 @@ public class RestaurantController {
     }
     @GetMapping("/")
     public String home() {
-        return "forward:/index.html";
+        return "redirect:/index.html";
     }
 
 
@@ -35,7 +35,7 @@ public class RestaurantController {
     }
     @GetMapping("/customer/add")
     public String newCus(){
-        return "form";
+        return "customerForm";
     }
 
     @GetMapping("/add/success/{entityName}")
@@ -68,7 +68,7 @@ public class RestaurantController {
 
     @PostMapping("/chef/add")
     public String addChef(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String specialty, @RequestParam double salary, @RequestParam double yrsOfExperience){
-        Chef newChef = new Chef(restService.findAllChefs().size() + 1, firstName, lastName, salary, specialty, new ArrayList<>(), yrsOfExperience);
+        Chef newChef = new Chef(restService.findAllChefs().size() + 1, firstName, lastName, salary, specialty, this.restService.findMap().get(specialty), yrsOfExperience);
         this.restService.addChef(newChef);
         return "redirect:/add/success/chef";
     }

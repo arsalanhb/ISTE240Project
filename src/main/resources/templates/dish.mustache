@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="ui celled table">
+    <thead>
+    <tr>
+        <th>Dish Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Available</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#dishList}}
+        <tr>
+            <td>{{dishName}}</td>
+            <td>{{description}}</td>
+            <td>{{price}}</td>
+            <td>{{category}}</td>
+            <td>{{price}}</td>
+            <td>{{available}}</td>
+        </tr>
+    {{/dishList}}
+    </tbody>
+</table>
+</body>
+</html>
