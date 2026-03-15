@@ -12,6 +12,8 @@ public class Chef {
     private String specialty;
     private double yrsOfExperience;
     private double salary;
+
+
     private List<Dish> dishList;
 
     public Chef(int chefId, String firstName, String lastName, double salary, String specialty, List<Dish> dishList,double yrsOfExperience) {
@@ -73,4 +75,10 @@ public class Chef {
     }
 
 
+    public List<Dish> getDishList() {
+        return dishList;
+    }
+    public void setDishList(List<Dish> dishList) {
+        this.dishList = dishList;
+    }
 }
