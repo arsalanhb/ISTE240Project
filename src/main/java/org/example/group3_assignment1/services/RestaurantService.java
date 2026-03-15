@@ -6,16 +6,20 @@ import org.example.group3_assignment1.models.Dish;
 import org.example.group3_assignment1.models.Waiter;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RestaurantService {
     private List<Waiter> waiterList= new ArrayList<>();
     private List<Chef> chefList = new ArrayList<>();
     private List<Customer> customerList = new ArrayList<>();
+    private List<Dish> allDishes = new ArrayList<>();
     private List<Dish> mexDishList = new ArrayList<>();
     private List<Dish> italDishList = new ArrayList<>();
     private List<Dish> pakDishList = new ArrayList<>();
+    private HashMap<String, List<Dish>> link = new HashMap<>();
 
 
     public RestaurantService(){
@@ -58,6 +62,17 @@ public class RestaurantService {
         chefList.add(mexChef);
         chefList.add(italChef);
 
+        link.put("Mexican", mexDishList);
+        link.put("Italian", italDishList);
+        link.put("Pakistani", pakDishList);
+
+
+        allDishes.addAll(this.mexDishList);
+        allDishes.addAll(this.italDishList);
+        allDishes.addAll(this.pakDishList);
+
+
+
     }
 
     public List<Waiter> findAllWaiters(){
@@ -67,29 +82,37 @@ public class RestaurantService {
         return this.customerList;
     }
 
-
     public List<Chef> findAllChefs(){
         return this.chefList;
     }
     public List<Dish> findAllDishes(){
-        List<Dish> allDishes = new ArrayList<>();
-        allDishes.addAll(this.mexDishList);
-        allDishes.addAll(this.italDishList);
-        return allDishes;
+        return this.allDishes;
     }
+
+    public HashMap<String, List<Dish>> findMap(){
+        return this.link;
+    }
+
 
     public void addCustomer(Customer newCus){
         this.customerList.add(newCus);
     }
+
     public void addChef(Chef newChef){
         this.chefList.add(newChef);
     }
+
     public void addDish(Dish newDish){
+        System.out.print(newDish.getCategory());
+        this.allDishes.add(newDish);
         if(newDish.getCategory().equalsIgnoreCase("Mexican")){
             this.mexDishList.add(newDish);
         }
         else if(newDish.getCategory().equalsIgnoreCase("Italian")){
             this.italDishList.add(newDish);
+        }
+        else if(newDish.getCategory().equalsIgnoreCase("Pakistani")){
+            this.pakDishList.add(newDish);
         }
     }
 
