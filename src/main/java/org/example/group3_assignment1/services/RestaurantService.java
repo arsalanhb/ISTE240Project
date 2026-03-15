@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class RestaurantService {
@@ -16,17 +15,17 @@ public class RestaurantService {
     private List<Chef> chefList = new ArrayList<>();
     private List<Customer> customerList = new ArrayList<>();
     private List<Dish> allDishes = new ArrayList<>();
-    private List<Dish> mexDishList = new ArrayList<>();
-    private List<Dish> italDishList = new ArrayList<>();
-    private List<Dish> pakDishList = new ArrayList<>();
+    private List<Dish> jorDishList = new ArrayList<>();
+    private List<Dish> greDishList = new ArrayList<>();
+    private List<Dish> turDishList = new ArrayList<>();
     private HashMap<String, List<Dish>> link = new HashMap<>();
 
 
     public RestaurantService(){
         Waiter waiter1 = new Waiter(1, "John", "Doe", 20000.0);
         Waiter waiter2 = new Waiter(2, "Jane", "Doe", 19000.0);
-        Waiter waiter3 = new Waiter(2, "Jack", "Doe", 19000.0);
-        Waiter waiter4 = new Waiter(2, "Jenny", "Doe", 19000.0);
+        Waiter waiter3 = new Waiter(3, "Jack", "Doe", 19000.0);
+        Waiter waiter4 = new Waiter(4, "Jenny", "Doe", 19000.0);
         waiterList.add(waiter1);
         waiterList.add(waiter2);
         waiterList.add(waiter3);
@@ -38,38 +37,44 @@ public class RestaurantService {
         customerList.add(cus1);
         customerList.add(cus2);
         customerList.add(cus3);
+        Dish dish1 = new Dish(true, "Jordanian", "Rice cooked with yogurt sauce and served with lamb", "Mansaf", 25);
+        Dish dish2 = new Dish(true, "Jordanian", "Layered rice, meat, and vegetables baked together", "Maqluba", 22);
+        Dish dish3 = new Dish(true, "Jordanian", "Chickpea patties deep-fried, served with tahini and salad", "Falafel", 15);
 
-        Dish dish1 = new Dish(true, "Mexican","Beef, Lettuce, Tomato put in hard taco shell", "Taco",20);
-        Dish dish2 = new Dish(true, "Mexican", "Rolled tortillas stuffed with chicken, beef, or cheese, topped with red or green sauce", "Enchiladas", 22);
-        Dish dish3 = new Dish(true, "Mexican","Flour tortilla filled with melted cheese and your choice of meat, folded in half and grilled", "Quesadilla", 15);
-        Dish dish4 = new Dish(true, "Mexican", "Sizzling grilled meat, peppers, and onions, served with tortillas and various toppings", "Fajitas", 25);
+        jorDishList.add(dish1);
+        jorDishList.add(dish2);
+        jorDishList.add(dish3);
 
-        mexDishList.add(dish1);
-        mexDishList.add(dish2);
-        mexDishList.add(dish3);
-        mexDishList.add(dish4);
+        Dish dish4 = new Dish(true, "Greek", "Grilled lamb or beef with vegetables and tzatziki sauce", "Souvlaki", 22);
+        Dish dish5 = new Dish(true, "Greek", "Layered pastry with spinach and feta cheese", "Spanakopita", 18);
+        Dish dish6 = new Dish(true, "Greek", "Layers of eggplant, minced meat, tomatoes, and béchamel", "Moussaka", 25);
 
-        Dish dish5 = new Dish(true, "Italian","Pasta served with a rich meat sauce made from ground beef, tomatoes, onions, and garlic", "Spaghetti Bolognese", 18);
-        Dish dish6 = new Dish(true, "Italian", "Layered pasta sheets with a combination of meat sauce, béchamel, and cheese", "Lasagna", 22);
-        Dish dish7 = new Dish(true, "Italian", "Thin crust pizza topped with fresh mozzarella, basil, and tomato sauce", "Margherita Pizza", 15);
+        greDishList.add(dish4);
+        greDishList.add(dish5);
+        greDishList.add(dish6);
 
-        italDishList.add(dish5);
-        italDishList.add(dish6);
-        italDishList.add(dish7);
+        Dish dish7 = new Dish(true, "Turkish", "Grilled minced meat or chicken on skewers, served with rice", "Kebab", 20);
+        Dish dish8 = new Dish(true, "Turkish", "Thin dough topped with minced meat, vegetables, and spices, baked", "Lahmacun", 16);
+        Dish dish9 = new Dish(true, "Turkish", "Grilled cheese from goat or cow milk, served with vegetables", "Grilled Halloumi", 15);
 
-        Chef mexChef = new Chef(1, "Gordon", "Ramsey", 40000.0, "Mexican", mexDishList,12);
-        Chef italChef = new Chef(2, "Francesco", "Ritza", 40000.0, "Italian", italDishList,12);
-        chefList.add(mexChef);
-        chefList.add(italChef);
+        turDishList.add(dish7);
+        turDishList.add(dish8);
+        turDishList.add(dish9);
 
-        link.put("Mexican", mexDishList);
-        link.put("Italian", italDishList);
-        link.put("Pakistani", pakDishList);
+        Chef jorChef = new Chef(1, "Ahmad", "Al-Khaled", 40000.0, "Jordanian", jorDishList, 12);
+        Chef greChef = new Chef(2, "Francesco", "Ritza", 40000.0, "Greek", greDishList, 12);
+
+        chefList.add(jorChef);
+        chefList.add(greChef);
+
+        link.put("Jordanian", jorDishList);
+        link.put("Greek", greDishList);
+        link.put("Turkish", turDishList);
 
 
-        allDishes.addAll(this.mexDishList);
-        allDishes.addAll(this.italDishList);
-        allDishes.addAll(this.pakDishList);
+        allDishes.addAll(this.jorDishList);
+        allDishes.addAll(this.greDishList);
+        allDishes.addAll(this.turDishList);
 
 
 
@@ -105,14 +110,14 @@ public class RestaurantService {
     public void addDish(Dish newDish){
         System.out.print(newDish.getCategory());
         this.allDishes.add(newDish);
-        if(newDish.getCategory().equalsIgnoreCase("Mexican")){
-            this.mexDishList.add(newDish);
+        if(newDish.getCategory().equalsIgnoreCase("Jordanian")){
+            this.jorDishList.add(newDish);
         }
-        else if(newDish.getCategory().equalsIgnoreCase("Italian")){
-            this.italDishList.add(newDish);
+        else if(newDish.getCategory().equalsIgnoreCase("Greek")){
+            this.greDishList.add(newDish);
         }
-        else if(newDish.getCategory().equalsIgnoreCase("Pakistani")){
-            this.pakDishList.add(newDish);
+        else if(newDish.getCategory().equalsIgnoreCase("Turkish")){
+            this.turDishList.add(newDish);
         }
     }
     public void addWaiter(Waiter newWaiter) {
