@@ -115,7 +115,9 @@ public class RestaurantService {
             this.pakDishList.add(newDish);
         }
     }
-
+    public void addWaiter(Waiter newWaiter) {
+        this.waiterList.add(newWaiter);
+    }
 
 
 

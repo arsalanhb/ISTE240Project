@@ -3,6 +3,7 @@ package org.example.group3_assignment1.controllers;
 import org.example.group3_assignment1.models.Chef;
 import org.example.group3_assignment1.models.Customer;
 import org.example.group3_assignment1.models.Dish;
+import org.example.group3_assignment1.models.Waiter;
 import org.example.group3_assignment1.services.RestaurantService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,6 +89,24 @@ public class RestaurantController {
         Dish newDish = new Dish(available, category, description, dishName, price);
         this.restService.addDish(newDish);
         return "redirect:/add/success/dish";
+    }
+
+    @GetMapping("/waiter")
+    public String waiter(Model data) {
+        data.addAttribute("waiterList", restService.findAllWaiters());
+        return "waiter";
+    }
+
+    @GetMapping("/waiter/add")
+    public String newWaiter() {
+        return "waiterForm";
+    }
+
+    @PostMapping("/waiter/add")
+    public String addWaiter(@RequestParam String firstName, @RequestParam String lastName, @RequestParam double salary) {
+        Waiter newWaiter = new Waiter(restService.findAllWaiters().size() + 1, firstName, lastName, salary);
+        restService.addWaiter(newWaiter);
+        return "redirect:/add/success/waiter";
     }
 
 
