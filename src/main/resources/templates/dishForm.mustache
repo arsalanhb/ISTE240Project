@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Dish</title>
+</head>
+<body>
+<form class="ui form" method="post" action="/dish/add">
+    <div class="field">
+        <label>Dish Name</label>
+        <input type="text" name="dishName" placeholder="dishName">
+    </div>
+    <div class="field">
+        <label>Description</label>
+        <input type="text" name="description" placeholder="description">
+    </div>
+    <div class="field">
+        <label>Category</label>
+        <select name="category">
+            <option value="Mexican">Mexican</option>
+            <option value="Italian">Italian</option>
+            <option value="Pakistani">Pakistani</option>
+        </select>
+    </div>
+    <div class="field">
+        <label>Price</label>
+        <input type="text" name="price" placeholder="price">
+    </div>
+    <div class="field">
+        <label>Available</label>
+        <select name="available">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    <button class="ui button" type="submit">Submit</button>
+</form>
+</div>
+</body>
+</html>
