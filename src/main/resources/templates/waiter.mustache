@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kebab Shop</title>
+    <title>Waiters - Kebab Shop</title>
     <style>
         body { font-family: sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background-color: #383131; color: #fdfdfd; border-radius: 10px; }
         h1 { color: #d35400; text-align: center; }
@@ -15,27 +15,27 @@
     </style>
 </head>
 <body>
-<table class="ui celled table">
+<h1>Waiters</h1>
+<table>
     <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Assigned Waiter</th>
-            <th>Customer Id</th>
-            <th>Preference</th>
-        </tr>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Salary</th>
+    </tr>
     </thead>
     <tbody>
-    {{#customerList}}
+    {{#waiterList}}
         <tr>
+            <td>{{id}}</td>
             <td>{{firstName}}</td>
             <td>{{lastName}}</td>
-            <td>{{assignedWaiter.firstName}} {{assignedWaiter.lastName}}</td>
-            <td>{{CustomerId}}</td>
-            <td>{{preference}}</td>
+            <td>{{salary}}</td>
         </tr>
-    {{/customerList}}
+    {{/waiterList}}
     </tbody>
 </table>
+<a href="/">← Back to Home</a>
 </body>
 </html>

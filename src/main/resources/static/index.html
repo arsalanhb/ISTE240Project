@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: sans-serif;
-            max-width: 500px;
+            max-width: 700px;
             margin: 40px auto;
             padding: 20px;
             background-color: #383131;
@@ -19,23 +19,53 @@
         hr { border: 0; border-top: 1px solid #ddd; }
         ul { padding-left: 20px; }
         .description { font-style: italic; color: #fdfdfd; text-align: center; }
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             margin-top: 15px;
         }
-        .nav-links a {
-            display: block;
-            background-color: #d35400;
-            color: white;
+        .card {
+            background-color: #4a3f3f;
+            border-radius: 10px;
+            padding: 20px;
             text-align: center;
-            padding: 10px;
+        }
+        .card h3 {
+            margin: 0 0 5px 0;
+            color: #d35400;
+            font-size: 20px;
+        }
+        .card p {
+            margin: 0 0 15px 0;
+            font-size: 13px;
+            color: #ccc;
+        }
+        .card-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .card-buttons a {
+            flex: 1;
+            padding: 8px;
             border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
+            font-size: 14px;
         }
-        .nav-links a:hover { background-color: #b94600; }
+        .btn-view {
+            background-color: #d35400;
+            color: white;
+        }
+        .btn-view:hover { background-color: #b94600; }
+        .btn-add {
+            background-color: transparent;
+            color: #d35400;
+            border: 2px solid #d35400;
+        }
+        .btn-add:hover { background-color: #d35400; color: white; }
     </style>
 </head>
 <body>
@@ -54,19 +84,39 @@
 </ul>
 <hr>
 <h3>Explore Our Restaurant</h3>
-<div class="nav-links">
-    <a href="/dish">View Dishes</a>
-    <a href="/dish/add">Add a Dish</a>
-
-    <a href="/chef">View Chefs</a>
-    <a href="/chef/add">Add a Chef</a>
-
-    <a href="/waiter">View Waiters</a>
-    <a href="/waiter/add">Add a Waiter</a>
-
-    <a href="/customer">View Customers</a>
-    <a href="/customer/add">Add a Customer</a>
-
+<div class="cards">
+    <div class="card">
+        <h3>🍽️ Dishes</h3>
+        <p>Browse or add menu items</p>
+        <div class="card-buttons">
+            <a href="/dish" class="btn-view">View</a>
+            <a href="/dish/add" class="btn-add">+ Add</a>
+        </div>
+    </div>
+    <div class="card">
+        <h3>👨‍🍳 Chefs</h3>
+        <p>Browse or add chefs</p>
+        <div class="card-buttons">
+            <a href="/chef" class="btn-view">View</a>
+            <a href="/chef/add" class="btn-add">+ Add</a>
+        </div>
+    </div>
+    <div class="card">
+        <h3>🧑‍💼 Waiters</h3>
+        <p>Browse or add waiters</p>
+        <div class="card-buttons">
+            <a href="/waiter" class="btn-view">View</a>
+            <a href="/waiter/add" class="btn-add">+ Add</a>
+        </div>
+    </div>
+    <div class="card">
+        <h3>🪑 Customers</h3>
+        <p>Browse or add customers</p>
+        <div class="card-buttons">
+            <a href="/customer" class="btn-view">View</a>
+            <a href="/customer/add" class="btn-add">+ Add</a>
+        </div>
+    </div>
 </div>
 <hr>
 <h3>Find Us</h3>
@@ -74,6 +124,6 @@
     Dubai Silicon Oasis - Souq Extra<br>
     <b>Open:</b> 9am - 12PM
 </p>
-<p><small>Call this number to order: 050 1234567</small></p>
+<p>📞 <b>050 1234567</b></p>
 </body>
 </html>
