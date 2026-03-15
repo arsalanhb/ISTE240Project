@@ -1,6 +1,8 @@
 package org.example.group3_assignment1.controllers;
 
+import org.example.group3_assignment1.models.Chef;
 import org.example.group3_assignment1.models.Customer;
+import org.example.group3_assignment1.models.Dish;
 import org.example.group3_assignment1.services.RestaurantService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 @Controller
@@ -56,5 +60,36 @@ public class RestaurantController {
         data.addAttribute("chefList", restService.findAllChefs());
         return "chefDish";
     }
+
+    @GetMapping("/chef/add")
+    public String newChef(){
+        return "chefForm";
+    }
+
+    @PostMapping("/chef/add")
+    public String addChef(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String specialty, @RequestParam double salary, @RequestParam double yrsOfExperience){
+        Chef newChef = new Chef(restService.findAllChefs().size() + 1, firstName, lastName, salary, specialty, new ArrayList<>(), yrsOfExperience);
+        this.restService.addChef(newChef);
+        return "redirect:/add/success/chef";
+    }
+
+    @GetMapping("/dish") String Dish(Model data){
+        data.addAttribute("dishList", this.restService.findAllDishes());
+        return "dish";
+    }
+
+    @GetMapping("/dish/add")
+    public String newDish() {
+        return "dishForm";
+    }
+
+    @PostMapping("/dish/add")
+    public String addDish(@RequestParam boolean available, @RequestParam String category, @RequestParam String description, @RequestParam String dishName, @RequestParam double price){
+        Dish newDish = new Dish(available, category, description, dishName, price);
+        this.restService.addDish(newDish);
+        return "redirect:/add/success/dish";
+    }
+
+
 
 }
