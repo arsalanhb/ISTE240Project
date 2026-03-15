@@ -36,16 +36,28 @@
             <td>{{specialty}}</td>
             <td>{{yrsOfExperience}}</td>
             <td>{{salary}}</td>
-            <td>{{#dishList}}
-                    {{dishName}}
-                    {{description}}
-                    {{price}}
-                    {{category}}
-                    {{available}}
-            {{/dishList}}</td>
+            <td>
+                <table style="width:100%; border-collapse:collapse;">
+                    <tr style="background-color:#5a4a4a;">
+                        <th style="padding:6px; font-size:12px;">Name</th>
+                        <th style="padding:6px; font-size:12px;">Description</th>
+                        <th style="padding:6px; font-size:12px;">Price</th>
+                        <th style="padding:6px; font-size:12px;">Available</th>
+                    </tr>
+                    {{#dishList}}
+                        <tr>
+                            <td style="padding:6px; font-size:12px;">{{dishName}}</td>
+                            <td style="padding:6px; font-size:12px;">{{description}}</td>
+                            <td style="padding:6px; font-size:12px;">{{price}}</td>
+                            <td style="padding:6px; font-size:12px;">{{available}}</td>
+                        </tr>
+                    {{/dishList}}
+                </table>
+            </td>
         </tr>
     {{/chefList}}
     </tbody>
 </table>
+<a href="/">← Back to Home</a>
 </body>
 </html>
