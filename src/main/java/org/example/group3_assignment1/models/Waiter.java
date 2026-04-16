@@ -2,6 +2,8 @@ package org.example.group3_assignment1.models;
 
 
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
 
 public class Waiter {

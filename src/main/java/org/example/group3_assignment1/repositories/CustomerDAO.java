@@ -1,0 +1,13 @@
+// Student Name: Munzier Kashef | Student ID: 761008741
+package org.example.group3_assignment1.repositories;
+
+import org.example.group3_assignment1.models.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface CustomerDAO extends JpaRepository<Customer, Integer> {
+    List<Customer> findByFirstName(String firstName);
+
+}
