@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <button id="findDishes">Dishes</button>
+    <div id="dishDiv"></div>
+</body>
+<script>
+    $("#findDishes").click(function(){
+
+        var api = "/dished"
+        $.get(api, function(data){
+            let tab = "<table>"
+            tab += "<tr>"
+            tab +=  "<th>ID</th>"
+            tab +=  "<th>Dish Name</th>"
+            tab +=  "<th>Description</th>"
+            tab +=  "<th>Price</th>"
+            tab +=  "<th>Category</th>"
+            tab +=  "</tr>"
+            for(i = 0; i<data.length; i++){
+                let line = data[i];
+                tab += "<tr>"
+                tab +=  `<th>${line.dishId}</th>`
+                tab +=  `<th>${line.dishName}</th>`
+                tab +=  `<th>${line.description}</th>`
+                tab +=  `<th>${line.price}</th>`
+                tab +=  `<th>l${line.category}</th>`
+                tab +=  "</tr>"
+            }
+            tab+="</table>"
+            $("#dishDiv").html(tab)
+
+        })
+    })
+</script>
+</html>
