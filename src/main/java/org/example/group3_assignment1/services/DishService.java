@@ -16,11 +16,21 @@ public class DishService {
     @Autowired
     private DishDAO dishDao;
 
+    public Dish decision(String value, String option){
+        if(option.equals("dishId")){
+            return findByDishId(Long.parseLong(value));
+        }
+        else if (option.equals("dishName")){
+            return findByDishName(value);
+        }
+        return null;
+    }
+
     public List<Dish> findAll(){
         return dishDao.findAll();
     }
 
-    public Dish findByDishId(long id){
+    public Dish findByDishId(Long id){
         return dishDao.findByDishId(id);
     }
 
@@ -35,6 +45,23 @@ public class DishService {
     public List<Dish> findByPrice(double price){
         return dishDao.findByPrice(price);
     }
+
+    public int updateAvailableByDishId(boolean available, Long dishId){
+        if(!dishDao.existsById(dishId)){
+            throw new RuntimeException("Dish with that ID does not exist");
+        }
+        return dishDao.updateAvailableByDishId(available,dishId);
+
+    }
+
+    public void deleteByDishId(Long dishId){
+        if(!dishDao.existsById(dishId)){
+            throw new RuntimeException("Dish with that ID does not exist");
+        }
+        dishDao.deleteByDishId(dishId);
+    }
+
+
 
 
 

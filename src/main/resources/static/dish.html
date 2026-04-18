@@ -6,13 +6,18 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-    <button id="findDishes">Dishes</button>
+    <label for="searchOption">Search By:</label>
+    <select name="searchOption" id="searchOption">
+        <option value="dishId">Dish ID</option>
+        <option value="dishName">Dish Name</option>
+    </select>
+    <input id="requested"name="requested" type="search">
+    <button id="sub">Submit</button>
     <div id="dishDiv"></div>
 </body>
 <script>
-    $("#findDishes").click(function(){
-
-        var api = "/dished"
+    $(document).ready(function(){
+        var api = "/api/dished"
         $.get(api, function(data){
             let tab = "<table>"
             tab += "<tr>"
@@ -29,7 +34,7 @@
                 tab +=  `<th>${line.dishName}</th>`
                 tab +=  `<th>${line.description}</th>`
                 tab +=  `<th>${line.price}</th>`
-                tab +=  `<th>l${line.category}</th>`
+                tab +=  `<th>${line.category}</th>`
                 tab +=  "</tr>"
             }
             tab+="</table>"
@@ -37,5 +42,34 @@
 
         })
     })
+
+    $("#sub").click(function(){
+        tab = "<table>"
+        var method = $("#searchOption").val()
+        var requested = $("#requested").val()
+        let apiurl = `/api/dished/${method}/${requested}`
+
+        $.get(apiurl, function(data){
+            tab += "<tr>"
+            tab +=  "<th>ID</th>"
+            tab +=  "<th>Dish Name</th>"
+            tab +=  "<th>Description</th>"
+            tab +=  "<th>Price</th>"
+            tab +=  "<th>Category</th>"
+            tab +=  "</tr>"
+            tab += "<tr>"
+            tab +=  `<th>${data.dishId}</th>`
+            tab +=  `<th>${data.dishName}</th>`
+            tab +=  `<th>${data.description}</th>`
+            tab +=  `<th>${data.price}</th>`
+            tab +=  `<th>${data.category}</th>`
+            tab +=  "</tr>"
+            tab+="</table>"
+            $("#dishDiv").html(tab)
+        })
+
+
+    })
+
 </script>
 </html>
