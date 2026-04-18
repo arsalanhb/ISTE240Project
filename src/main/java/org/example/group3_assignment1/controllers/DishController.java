@@ -23,9 +23,13 @@ public class DishController {
     }
 
     @GetMapping("/api/dished/{searchOption}/{requested}")
-    public Dish specificDish(@PathVariable String searchOption, @PathVariable String requested){
+    public List<Dish> specificDish(@PathVariable String searchOption, @PathVariable String requested){
         return dishService.decision(requested, searchOption);
     }
+//    @GetMapping("/api/dished/{searchMOption}/{requestedM}")
+//    public List<Dish> specificDishMulti(@PathVariable String searchMOption, @PathVariable String requestedM){
+//        return dishService.multiDecision(requestedM, searchMOption);
+//    }
 
 
 

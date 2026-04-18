@@ -23,11 +23,11 @@ public interface DishDAO extends JpaRepository<Dish, Long> {
 
     List<Dish> findByCategory(String category);
 
-    @Query("Select d from Dish d where d.price <= :price")
+    @Query("Select d from Dish d where d.price <= :requestedPrice")
     List<Dish> findByPrice(@Param("requestedPrice") double price);
 
     @Modifying
-    @Query("Update Dish d set d.available = :available where d.dishId = :dishId")
+    @Query("Update Dish d set d.available = :available where d.dishId = :id")
     int updateAvailableByDishId(@Param("available") boolean availability, @Param("id") Long dishId);
 
     @Modifying

@@ -7,6 +7,7 @@ import org.example.group3_assignment1.repositories.DishDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,14 +17,24 @@ public class DishService {
     @Autowired
     private DishDAO dishDao;
 
-    public Dish decision(String value, String option){
+    public List<Dish> decision(String value, String option){
+        List<Dish> dishList = new ArrayList<Dish>();
+        if (value.isEmpty()){
+            throw new IllegalArgumentException("Cannot accept empty values");
+        }
         if(option.equals("dishId")){
-            return findByDishId(Long.parseLong(value));
+            dishList.add(findByDishId(Long.parseLong(value)));
         }
         else if (option.equals("dishName")){
-            return findByDishName(value);
+             dishList.add(findByDishName(value));
         }
-        return null;
+        else if (option.equals("category")){
+            return findByCategory(value);
+        }
+        else if (option.equals("price")){
+            return findByPrice(Double.parseDouble(value));
+        }
+        return dishList;
     }
 
     public List<Dish> findAll(){
