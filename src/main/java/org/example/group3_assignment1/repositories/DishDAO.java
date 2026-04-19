@@ -13,7 +13,9 @@ import java.util.List;
 @Repository
 public interface DishDAO extends JpaRepository<Dish, Long> {
 
-//    boolean existsByDishId(Long dishId);
+    boolean existsByDishName(String dishName);
+
+    boolean existsByCategory(String category);
 
     List<Dish> findAll();
 

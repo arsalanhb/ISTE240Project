@@ -4,12 +4,14 @@ package org.example.group3_assignment1.controllers;
 import org.example.group3_assignment1.models.Dish;
 import org.example.group3_assignment1.services.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 public class DishController {
@@ -22,14 +24,38 @@ public class DishController {
         return dishService.findAll();
     }
 
-    @GetMapping("/api/dished/{searchOption}/{requested}")
-    public List<Dish> specificDish(@PathVariable String searchOption, @PathVariable String requested){
-        return dishService.decision(requested, searchOption);
+    @GetMapping("/api/dished/dishId/{requested}")
+    public ResponseEntity<List<Dish>> specificDishId(@PathVariable Long requested){
+        HttpHeaders header = new HttpHeaders();
+        header.add("Custom - Header", "Details");
+        return ResponseEntity.ok().body((dishService.findByDishId(requested)));
     }
-//    @GetMapping("/api/dished/{searchMOption}/{requestedM}")
-//    public List<Dish> specificDishMulti(@PathVariable String searchMOption, @PathVariable String requestedM){
-//        return dishService.multiDecision(requestedM, searchMOption);
+    @GetMapping("/api/dished/dishName/{requested}")
+    public ResponseEntity<List<Dish>> specificDishName(@PathVariable String requested){
+        HttpHeaders header = new HttpHeaders();
+        header.add("Custom - Header", "Details");
+        return ResponseEntity.ok().body((dishService.findByDishName(requested)));
+    }
+    @GetMapping("/api/dished/category/{requested}")
+    public ResponseEntity<List<Dish>> specificDishCategory(@PathVariable String requested){
+        HttpHeaders header = new HttpHeaders();
+        header.add("Custom - Header", "Details");
+        return ResponseEntity.ok().body((dishService.findByCategory(requested)));    }
+
+    @GetMapping("/api/dished/price/{requested}")
+    public ResponseEntity<List<Dish>> specificDishPrice(@PathVariable double requested){
+        HttpHeaders header = new HttpHeaders();
+        header.add("Custom - Header", "Details");
+        return ResponseEntity.ok().body((dishService.findByPrice(requested)));
+    }
+//
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<String> incorrectDataType(RuntimeException msg){
+//        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(msg.getMessage());
 //    }
+//
+//
+
 
 
 

@@ -17,39 +17,31 @@ public class DishService {
     @Autowired
     private DishDAO dishDao;
 
-    public List<Dish> decision(String value, String option){
-        List<Dish> dishList = new ArrayList<Dish>();
-        if (value.isEmpty()){
-            throw new IllegalArgumentException("Cannot accept empty values");
-        }
-        if(option.equals("dishId")){
-            dishList.add(findByDishId(Long.parseLong(value)));
-        }
-        else if (option.equals("dishName")){
-             dishList.add(findByDishName(value));
-        }
-        else if (option.equals("category")){
-            return findByCategory(value);
-        }
-        else if (option.equals("price")){
-            return findByPrice(Double.parseDouble(value));
-        }
-        return dishList;
-    }
 
     public List<Dish> findAll(){
         return dishDao.findAll();
     }
 
-    public Dish findByDishId(Long id){
-        return dishDao.findByDishId(id);
+    public List<Dish> findByDishId(Long id){
+        if(!dishDao.existsById(id)){
+            throw new RuntimeException("Dish with that ID does not exist");
+        }
+        return List.of(dishDao.findByDishId(id));
     }
 
-    public Dish findByDishName(String dishName){
-        return dishDao.findByDishName(dishName);
+    public List<Dish> findByDishName(String dishName){
+        if(!dishDao.existsByDishName(dishName)){
+            throw new RuntimeException("Dish with that name does not exist");
+        }
+
+        return List.of(dishDao.findByDishName(dishName));
     }
 
     public List<Dish> findByCategory(String category){
+        if(!dishDao.existsByCategory(category)){
+            throw new RuntimeException("Dish with that category does not exist");
+        }
+
         return dishDao.findByCategory(category);
     }
 

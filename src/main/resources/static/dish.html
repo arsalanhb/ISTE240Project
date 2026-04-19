@@ -4,29 +4,54 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        #addDish {
+            display: flex;
+            gap: 10px; /* optional: adds space between elements */
+        }
+    </style>
 </head>
 <body>
-    <label for="searchOption">Search By:</label>
-    <select name="searchOption" id="searchOption">
-        <option value="dishId">Dish ID</option>
-        <option value="dishName">Dish Name</option>
-    </select>
-    <input id="requested"name="requested" type="search">
-    <button id="sub">Submit</button>
+    <div id="singleResult">
+        <label for="searchOption">Search By:</label>
+        <select name="searchOption" id="searchOption">
+            <option value="dishId">Dish ID</option>
+            <option value="dishName">Dish Name</option>
+            <option value="category">Category</option>
+            <option value="price">Price</option>
+        </select>
+        <input id="requested" name="requested" type="search">
+        <button id="submit">Submit</button>
+    </div>
+    <button id="addBtn">Add</button>
+    <form id="addDish">
+        <div>
+            <label>Dish Name: </label>
+            <input type="text" id="dishName" name="dishName" placeholder="dishName">
+        </div>
+        <div>
+            <label>Description: </label>
+            <input type="text" id="description" name="description" placeholder="description">
+        </div>
+        <div>
+            <label>Category: </label>
+            <input type="text" id="category" name="category" placeholder="category">
+        </div>
+        <div>
+            <label>Price: </label>
+            <input type="number" id="price" name="price" placeholder="price">
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
     <div id="dishDiv"></div>
 </body>
 <script>
+    let tab = "<table>"
     $(document).ready(function(){
+        $("#addDish").hide()
         var api = "/api/dished"
         $.get(api, function(data){
-            let tab = "<table>"
-            tab += "<tr>"
-            tab +=  "<th>ID</th>"
-            tab +=  "<th>Dish Name</th>"
-            tab +=  "<th>Description</th>"
-            tab +=  "<th>Price</th>"
-            tab +=  "<th>Category</th>"
-            tab +=  "</tr>"
             for(i = 0; i<data.length; i++){
                 let line = data[i];
                 tab += "<tr>"
@@ -42,32 +67,53 @@
 
         })
     })
+    document.addEventListener('click', function() {
+        tab="<table>"
+        tab += "<tr>"
+        tab +=  "<th>ID</th>"
+        tab +=  "<th>Dish Name</th>"
+        tab +=  "<th>Description</th>"
+        tab +=  "<th>Price</th>"
+        tab +=  "<th>Category</th>"
+        tab +=  "</tr>"
+    }, true);
 
-    $("#sub").click(function(){
-        tab = "<table>"
+    $("#submit").click(function(){
         var method = $("#searchOption").val()
         var requested = $("#requested").val()
         let apiurl = `/api/dished/${method}/${requested}`
 
-        $.get(apiurl, function(data){
-            tab += "<tr>"
-            tab +=  "<th>ID</th>"
-            tab +=  "<th>Dish Name</th>"
-            tab +=  "<th>Description</th>"
-            tab +=  "<th>Price</th>"
-            tab +=  "<th>Category</th>"
-            tab +=  "</tr>"
-            tab += "<tr>"
-            tab +=  `<th>${data.dishId}</th>`
-            tab +=  `<th>${data.dishName}</th>`
-            tab +=  `<th>${data.description}</th>`
-            tab +=  `<th>${data.price}</th>`
-            tab +=  `<th>${data.category}</th>`
-            tab +=  "</tr>"
-            tab+="</table>"
-            $("#dishDiv").html(tab)
+        $.ajax({
+            url: apiurl,
+            type: 'GET',
+            dataType: "json",
+            success: function(data){
+                for(i = 0; i<data.length; i++){
+                    let line = data[i];
+                    tab += "<tr>"
+                    tab +=  `<th>${line.dishId}</th>`
+                    tab +=  `<th>${line.dishName}</th>`
+                    tab +=  `<th>${line.description}</th>`
+                    tab +=  `<th>${line.price}</th>`
+                    tab +=  `<th>${line.category}</th>`
+                    tab +=  "</tr>"
+
+                }
+                tab+="</table>"
+                $("#dishDiv").html(tab)
+            },
+            error: function(jqXHR){
+                if(jqXHR.status === 400 || jqXHR.status === 404){
+                    alert("Incorrect Input: Check data type or empty value")
+                }
+
+            }
         })
 
+
+    })
+
+    $("#addBtn").click(function(){
 
     })
 
