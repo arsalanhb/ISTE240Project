@@ -15,7 +15,7 @@ public class Dish {
     @Column(length=30, nullable=false, unique = true)
     private String dishName;
 
-    @Column(length=200, nullable = false, unique = true)
+    @Column(length=200, nullable = false)
     private String description;
 
     @Column(nullable = false)
@@ -25,12 +25,11 @@ public class Dish {
     private String category;
 
     @Column
-    private boolean available;
+    private boolean available = true;
 
     public Dish(){}
 
-    public Dish(boolean available, String category, String description, String dishName, double price) {
-        this.available = available;
+    public Dish(String dishName,String description,String category, double price) {
         this.category = category;
         this.description = description;
         this.dishName = dishName;

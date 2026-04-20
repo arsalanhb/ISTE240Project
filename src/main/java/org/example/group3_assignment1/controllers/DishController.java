@@ -48,6 +48,33 @@ public class DishController {
         header.add("Custom - Header", "Details");
         return ResponseEntity.ok().body((dishService.findByPrice(requested)));
     }
+    @PostMapping("/api/addDish")
+    public ResponseEntity<List<Dish>> saveDish(@RequestParam String dishName, @RequestParam String description, @RequestParam String category, @RequestParam double price){
+        HttpHeaders header = new HttpHeaders();
+        header.add("Custom - Header", "Details");
+        return ResponseEntity.ok().body((dishService.saveDish(new Dish(dishName, description, category, price))));
+    }
+
+    @PostMapping("/api/updDish")
+    public ResponseEntity<List<Dish>> updDish(@RequestParam Long dishId, @RequestParam String dishName, @RequestParam String description, @RequestParam String category, @RequestParam double price){
+        System.out.print("Amazing");
+        HttpHeaders header = new HttpHeaders();
+        header.add("Custom - Header", "Details");
+        return ResponseEntity.ok().body((dishService.updateById(dishId,new Dish(dishName, description, category, price))));
+    }
+
+    @PostMapping("/api/delDish")
+    public ResponseEntity<String> delDish(@RequestParam Long dishId){
+        HttpHeaders header = new HttpHeaders();
+        header.add("Custom - Header", "Details");
+        System.out.print("Amazing");
+        return ResponseEntity.ok().body(dishService.deleteByDishId(dishId));
+
+    }
+
+
+
+
 //
 //    @ExceptionHandler(RuntimeException.class)
 //    public ResponseEntity<String> incorrectDataType(RuntimeException msg){

@@ -32,6 +32,7 @@ public interface DishDAO extends JpaRepository<Dish, Long> {
     @Query("Update Dish d set d.available = :available where d.dishId = :id")
     int updateAvailableByDishId(@Param("available") boolean availability, @Param("id") Long dishId);
 
+
     @Modifying
     void deleteByDishId(long dishId);
 

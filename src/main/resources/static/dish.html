@@ -5,10 +5,11 @@
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
-        #addDish {
+        form {
             display: flex;
-            gap: 10px; /* optional: adds space between elements */
+            gap: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -42,24 +43,57 @@
             <input type="number" id="price" name="price" placeholder="price">
         </div>
 
-        <button type="submit">Submit</button>
+        <button id="addSubmit" type="button">Submit</button>
+    </form>
+
+    <button id="updBtn">Update</button>
+    <form id="updDish">
+        <div>
+            <label>Dish Id: </label>
+            <input type="text" id="dishIdUpd" name="dishIdUpd" placeholder="dishIdUpd">
+        </div>
+        <div>
+            <label>Dish Name: </label>
+            <input type="text" id="dishNameUpd" name="dishNameUpd" placeholder="dishNameUpd">
+        </div>
+        <div>
+            <label>Description: </label>
+            <input type="text" id="descriptionUpd" name="descriptionUpd" placeholder="descriptionUpd">
+        </div>
+        <div>
+            <label>Category: </label>
+            <input type="text" id="categoryUpd" name="categoryUpd" placeholder="categoryUpd">
+        </div>
+        <div>
+            <label>Price: </label>
+            <input type="number" id="priceUpd" name="priceUpd" placeholder="priceUpd">
+        </div>
+        <button id="updSubmit" type="button">Submit</button>
+    </form>
+    <button id="delBtn">Delete</button>
+    <form id="delDish">
+        <div>
+            <label>Dish Id: </label>
+            <input type="text" id="dishIdDel" name="dishIdDel" placeholder="dishIdDel">
+        </div>
+        <button id="delSubmit">Submit</button>
     </form>
     <div id="dishDiv"></div>
 </body>
 <script>
     let tab = "<table>"
     $(document).ready(function(){
-        $("#addDish").hide()
+        $("#addDish,#updDish,#delDish").hide()
         var api = "/api/dished"
         $.get(api, function(data){
             for(i = 0; i<data.length; i++){
                 let line = data[i];
                 tab += "<tr>"
-                tab +=  `<th>${line.dishId}</th>`
-                tab +=  `<th>${line.dishName}</th>`
-                tab +=  `<th>${line.description}</th>`
-                tab +=  `<th>${line.price}</th>`
-                tab +=  `<th>${line.category}</th>`
+                tab +=  `<td>${line.dishId}</td>`
+                tab +=  `<td>${line.dishName}</td>`
+                tab +=  `<td>${line.description}</td>`
+                tab +=  `<td>${line.price}</td>`
+                tab +=  `<td>${line.category}</td>`
                 tab +=  "</tr>"
             }
             tab+="</table>"
@@ -91,11 +125,11 @@
                 for(i = 0; i<data.length; i++){
                     let line = data[i];
                     tab += "<tr>"
-                    tab +=  `<th>${line.dishId}</th>`
-                    tab +=  `<th>${line.dishName}</th>`
-                    tab +=  `<th>${line.description}</th>`
-                    tab +=  `<th>${line.price}</th>`
-                    tab +=  `<th>${line.category}</th>`
+                    tab +=  `<td>${line.dishId}</td>`
+                    tab +=  `<td>${line.dishName}</td>`
+                    tab +=  `<td>${line.description}</td>`
+                    tab +=  `<td>${line.price}</td>`
+                    tab +=  `<td>${line.category}</td>`
                     tab +=  "</tr>"
 
                 }
@@ -114,6 +148,109 @@
     })
 
     $("#addBtn").click(function(){
+       $("#addDish").toggle()
+    })
+    $("#updBtn").click(function(){
+        $("#updDish").toggle()
+    })
+    $("#delBtn").click(function(){
+        $("#delDish").toggle()
+    })
+
+
+    $("#addSubmit").click(function() {
+        let apiurl = "/api/addDish"
+        var dishName = $("#dishName").val()
+        var description = $("#description").val()
+        var category = $("#category").val()
+        var price = $("#price").val()
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            data: {dishName: dishName, description: description, category: category, price: price},
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+                    let line = data[i]
+                    tab += "<tr>"
+                    tab += `<td>${line.dishId}</td>`
+                    tab += `<td>${line.dishName}</td>`
+                    tab += `<td>${line.description}</td>`
+                    tab += `<td>${line.price}</td>`
+                    tab += `<td>${line.category}</td>`
+                    tab += "</tr>"
+                }
+                tab += "</table>"
+                $("#dishDiv").html(tab)
+            },
+            error: function (jqXHR) {
+                if (jqXHR.status === 400 || jqXHR.status === 404) {
+                    alert("System could not add this dish")
+                }
+                e.preventDefault()
+
+            }
+
+        })
+
+    })
+    $("#updSubmit").click(function () {
+        let apiurl = "/api/updDish"
+        var id = $("#dishIdUpd").val()
+        var dishName = $("#dishNameUpd").val()
+        var description = $("#descriptionUpd").val()
+        var category = $("#categoryUpd").val()
+        var price = $("#priceUpd").val()
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            data: {dishId: id,dishName: dishName, description: description, category: category, price: price},
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+                    let line = data[i]
+                    tab += "<tr>"
+                    tab += `<td>${line.dishId}</td>`
+                    tab += `<td>${line.dishName}</td>`
+                    tab += `<td>${line.description}</td>`
+                    tab += `<td>${line.price}</td>`
+                    tab += `<td>${line.category}</td>`
+                    tab += "</tr>"
+                }
+                tab += "</table>"
+                $("#dishDiv").html(tab)
+            },
+            error: function (jqXHR) {
+                if (jqXHR.status === 400 || jqXHR.status === 404) {
+                    alert("System could not add this dish")
+                }
+                e.preventDefault()
+
+            }
+
+        })
+
+    })
+
+    $("#delSubmit").click(function(e){
+        let apiurl = "/api/delDish"
+        var id = $("#dishIdDel").val();
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            data:{dishId: id},
+            success: function(data){
+                alert(data)
+
+            },
+            error: function(jqXHR){
+                if (jqXHR.status === 400 || jqXHR.status === 404) {
+                    alert("System could not add this dish")
+                }
+
+            }
+        })
+        e.preventDefault();
 
     })
 
