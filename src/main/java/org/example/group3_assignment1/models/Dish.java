@@ -1,18 +1,39 @@
 package org.example.group3_assignment1.models;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Entity
+@Table(name="dishes")
 public class Dish {
-    private String dishName;
-    private String description;
-    private double price;
-    private String category;
-    private boolean available;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long dishId;
 
-    public Dish(boolean available, String category, String description, String dishName, double price) {
-        this.available = available;
+    @Column(length=30, nullable=false, unique = true)
+    private String dishName;
+
+    @Column(length=200, nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private double price;
+
+    @Column(nullable = false)
+    private String category;
+
+    @Column
+    private boolean available = true;
+
+    @ManyToOne
+    @JoinColumn(name="category", nullable = false)
+    private Chef chef;
+
+    public Dish(){}
+
+    public Dish(String dishName,String description,String category, double price) {
         this.category = category;
         this.description = description;
         this.dishName = dishName;
@@ -60,7 +81,11 @@ public class Dish {
         this.available = available;
     }
 
+    public Long getDishId() {
+        return dishId;
+    }
 
-
-
+    public void setDishId(Long dishId) {
+        this.dishId = dishId;
+    }
 }
