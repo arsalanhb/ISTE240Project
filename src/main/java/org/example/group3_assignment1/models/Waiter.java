@@ -1,19 +1,34 @@
 package org.example.group3_assignment1.models;
 
 
-import jakarta.annotation.PostConstruct;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import org.springframework.stereotype.Component;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "waiters")
+
+//Muhammad Arsalan Habib - 403000286
 public class Waiter {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
     private double salary;
 
-    public Waiter(int id, String firstName, String lastName, double salary){
-        this.id = id;
+    public Waiter() {}
+
+    public Waiter(String firstName, String lastName, double salary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.salary = salary;
