@@ -27,6 +27,10 @@ public class Dish {
     @Column
     private boolean available = true;
 
+    @ManyToOne
+    @JoinColumn(name="category", nullable = false)
+    private Chef chef;
+
     public Dish(){}
 
     public Dish(String dishName,String description,String category, double price) {
