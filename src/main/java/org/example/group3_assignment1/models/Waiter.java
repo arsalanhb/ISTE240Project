@@ -1,6 +1,5 @@
+//Muhammad Arsalan Habib - 403000286
 package org.example.group3_assignment1.models;
-
-
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -10,7 +9,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "waiters")
 
-//Muhammad Arsalan Habib - 403000286
 public class Waiter {
 
     @Id
