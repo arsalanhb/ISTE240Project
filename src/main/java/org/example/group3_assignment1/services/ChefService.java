@@ -27,6 +27,14 @@ public class ChefService {
         return (List.of(chefDao.findByChefId(id)));
     }
 
+    public List<Chef> getChefByFirstName(String firstName){
+        if(!chefDao.existsByFirstName(firstName)){
+            throw new RuntimeException("Dish with that ID does not exist");
+        }
+        return chefDao.findByFirstName(firstName);
+    }
+
+
     public List<Chef> getChefBySpecialty(String specialty){
         if(!chefDao.existsBySpecialty(specialty)){
             throw new RuntimeException("Dish with that category does not exist");
@@ -35,7 +43,8 @@ public class ChefService {
         return chefDao.findBySpecialty(specialty);
     }
 
-    public List<Chef> saveDish(Chef chefToSave){
+    public List<Chef> saveChef(Chef chefToSave){
+        System.out.println("it reached");
         if(chefDao.existsByEmail(chefToSave.getEmail())){
             throw new RuntimeException("Chef already exists!!!");
         }
@@ -58,7 +67,7 @@ public class ChefService {
         existingChef.setEmail(updatedChef.getEmail());
         existingChef.setSalary(updatedChef.getSalary());
         existingChef.setYrsOfExperience(updatedChef.getYrsOfExperience());
-        return List.of(chefDao.save(existingChef));
+        return (saveChef(existingChef));
 
     }
 

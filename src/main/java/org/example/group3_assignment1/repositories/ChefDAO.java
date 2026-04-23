@@ -12,10 +12,14 @@ public interface ChefDAO extends JpaRepository<Chef, Long> {
 
     Chef findByChefId(Long chefId);
 
+    List<Chef> findByFirstName(String firstName);
+
     List<Chef> findBySpecialty(String specialty);
 
     boolean existsBySpecialty(String specialty);
 
     boolean existsByEmail(String email);
+
+    boolean existsByFirstName(String firstName);
 
 }

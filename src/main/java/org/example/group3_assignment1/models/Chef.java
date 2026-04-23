@@ -29,6 +29,8 @@ public class Chef {
     @Column(nullable = false)
     private double salary;
 
+
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "chef")
     private List<Dish> dishList;
 
