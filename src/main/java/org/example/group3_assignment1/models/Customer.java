@@ -1,9 +1,6 @@
 package org.example.group3_assignment1.models;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "Customers")
@@ -29,14 +26,22 @@ public class Customer {
         this.preference = preference;
     }
 
+    public Waiter getAssignedWaiter() {
+        return assignedWaiter;
+    }
+
+    public void setAssignedWaiter(Waiter assignedWaiter) {
+        this.assignedWaiter = assignedWaiter;
+    }
+
     public Customer() {}
 
     public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int CustomerId) {
-        this.customerId = CustomerId;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getFirstName() {
