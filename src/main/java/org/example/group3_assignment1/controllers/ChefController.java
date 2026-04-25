@@ -2,12 +2,15 @@ package org.example.group3_assignment1.controllers;
 
 
 import org.example.group3_assignment1.models.Chef;
+import org.example.group3_assignment1.models.Dish;
 import org.example.group3_assignment1.services.ChefService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ChefController {
@@ -17,21 +20,22 @@ public class ChefController {
 
     @GetMapping("/api/chefed")
     public ResponseEntity<List<Chef>> getAllChefs(){
-        return ResponseEntity.ok().body((chefService.getAllChefs()));
+        return ResponseEntity.ok().body(chefService.getAllChefs());
     }
 
     @GetMapping("/api/chefed/chefId/{requested}")
-    public ResponseEntity<List<Chef>> getChefById(@PathVariable Long requested){
+    public ResponseEntity<List<Optional<Chef>>> getChefById(@PathVariable Long requested){
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body(chefService.getChefById(requested));
+        return ResponseEntity.ok().body(List.of(chefService.getChefById(requested)));
     }
 
-    @GetMapping("/api/chefed/firstName/{requested}")
-    public ResponseEntity<List<Chef>> getChefByFirstName(@PathVariable String requested){
+    @GetMapping("/api/chefed/fullName/{requested}")
+    public ResponseEntity<List<Chef>> getChefFullName(@PathVariable String requested){
+        System.out.println("it reached controller");
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body(chefService.getChefByFirstName(requested));
+        return ResponseEntity.ok().body(chefService.getChefByFullName(requested));
     }
 
     @GetMapping("/api/chefed/specialty/{requested}")
@@ -42,19 +46,19 @@ public class ChefController {
     }
 
     @PostMapping("/api/addChef")
-    public ResponseEntity<List<Chef>> saveChef(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String specialty, @RequestParam double salary, @RequestParam double yrsOfExperience){
+    public ResponseEntity<List<Chef>> saveChef(@RequestBody Chef chefToSave){
         System.out.println("It reached here");
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body((chefService.saveChef(new Chef(firstName, lastName, email, salary, specialty, yrsOfExperience))));
+        return ResponseEntity.ok().body(List.of(chefService.saveChef(chefToSave)));
     }
 
     @PostMapping("/api/updChef")
-    public ResponseEntity<List<Chef>> updChef(@RequestParam Long chefId, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String specialty, @RequestParam double salary, @RequestParam double yrsOfExperience){
+    public ResponseEntity<List<Chef>> updChef(@RequestParam Long chefId, @RequestParam String email, @RequestParam Double salary, @RequestParam Double yrsOfExperience){
         System.out.print("Amazing");
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body((chefService.updateChefById(chefId,new Chef(firstName, lastName, email, salary,specialty, yrsOfExperience))));
+        return ResponseEntity.ok().body(List.of(chefService.updateChefById(chefId,email,salary,yrsOfExperience)));
     }
 
     @PostMapping("/api/delChef")
@@ -63,6 +67,10 @@ public class ChefController {
         header.add("Custom - Header", "Details");
         return ResponseEntity.ok().body(chefService.deleteChefById(chefId));
     }
-
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> incorrectInfo(RuntimeException msg){
+        System.out.println(msg.getMessage());
+        return new ResponseEntity<>(msg.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 }

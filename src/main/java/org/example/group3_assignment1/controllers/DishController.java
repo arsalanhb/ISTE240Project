@@ -5,6 +5,7 @@ import org.example.group3_assignment1.models.Dish;
 import org.example.group3_assignment1.services.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,19 +27,20 @@ public class DishController {
     public ResponseEntity<List<Dish>> specificDishId(@PathVariable Long requested){
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body((dishService.findByDishId(requested)));
+        return ResponseEntity.ok().body(List.of(dishService.findByDishId(requested)));
     }
     @GetMapping("/api/dished/dishName/{requested}")
     public ResponseEntity<List<Dish>> specificDishName(@PathVariable String requested){
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body((dishService.findByDishName(requested)));
+        return ResponseEntity.ok().body(List.of(dishService.findByDishName(requested)));
     }
     @GetMapping("/api/dished/category/{requested}")
     public ResponseEntity<List<Dish>> specificDishCategory(@PathVariable String requested){
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body((dishService.findByCategory(requested)));    }
+        return ResponseEntity.ok().body(dishService.findByCategory(requested));
+    }
 
     @GetMapping("/api/dished/price/{requested}")
     public ResponseEntity<List<Dish>> specificDishPrice(@PathVariable double requested){
@@ -47,18 +49,19 @@ public class DishController {
         return ResponseEntity.ok().body((dishService.findByPrice(requested)));
     }
     @PostMapping("/api/addDish")
-    public ResponseEntity<List<Dish>> saveDish(@RequestParam String dishName, @RequestParam String description, @RequestParam String category, @RequestParam double price){
+    public ResponseEntity<List<Dish>> saveDish(@RequestBody Dish newDish){
+        System.out.println("It reached controller save");
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body((dishService.saveDish(new Dish(dishName, description, category, price))));
+        return new ResponseEntity<>(List.of(dishService.saveDish(newDish)), HttpStatus.OK);
     }
 
     @PostMapping("/api/updDish")
-    public ResponseEntity<List<Dish>> updDish(@RequestParam Long dishId, @RequestParam String dishName, @RequestParam String description, @RequestParam String category, @RequestParam double price){
+    public ResponseEntity<List<Dish>> updDish(@RequestParam Long dishId, @RequestBody Dish updatedDish){
         System.out.print("Amazing");
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
-        return ResponseEntity.ok().body((dishService.updateById(dishId,new Dish(dishName, description, category, price))));
+        return ResponseEntity.ok().body(List.of(dishService.updateById(dishId,updatedDish)));
     }
 
     @PostMapping("/api/delDish")
@@ -69,15 +72,11 @@ public class DishController {
         return ResponseEntity.ok().body(dishService.deleteByDishId(dishId));
 
     }
-
-
-
-
-//
-//    @ExceptionHandler(RuntimeException.class)
-//    public ResponseEntity<String> incorrectDataType(RuntimeException msg){
-//        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(msg.getMessage());
-//    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> incorrectDataType(RuntimeException msg){
+        System.out.println(msg.getMessage());
+        return new ResponseEntity<>(msg.getMessage(),HttpStatus.BAD_REQUEST);
+    }
 //
 //
 
