@@ -1,5 +1,6 @@
-package org.example.group3_assignment1.repositories;
+//Adham Khalifa -- 418006637
 
+package org.example.group3_assignment1.repositories;
 import org.example.group3_assignment1.models.Chef;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,6 +26,9 @@ public interface ChefDAO extends JpaRepository<Chef, Long> {
     boolean existsByEmail(String email);
 
     boolean existsByFirstName(String firstName);
+
+    @Query("SELECT DISTINCT c.specialty from Chef c")
+    List<String> findAllSpecialty();
 
 
     @Modifying
