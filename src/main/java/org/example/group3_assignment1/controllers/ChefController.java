@@ -30,7 +30,7 @@ public class ChefController {
     @GetMapping("/api/chefed/chefId/{requested}")
     public ResponseEntity<List<Optional<Chef>>> getChefById(@PathVariable Long requested){
         HttpHeaders header = new HttpHeaders();
-        header.add("Custom - Header", "Details");
+        header.add("Custom - Header", "Chef-Details");
         return ResponseEntity.ok().body(List.of(chefService.getChefById(requested)));
     }
 
@@ -38,14 +38,14 @@ public class ChefController {
     public ResponseEntity<List<Chef>> getChefFullName(@PathVariable String requested){
         System.out.println("it reached controller");
         HttpHeaders header = new HttpHeaders();
-        header.add("Custom - Header", "Details");
+        header.add("Custom-Header", "Chef-Details");
         return ResponseEntity.ok().body(chefService.getChefByFullName(requested));
     }
 
     @GetMapping("/api/chefed/specialty/{requested}")
     public ResponseEntity<List<Chef>> getChefBySpecialty(@PathVariable String requested){
         HttpHeaders header = new HttpHeaders();
-        header.add("Custom - Header", "Details");
+        header.add("Custom-Header", "Chef-Details");
         return ResponseEntity.ok().body(chefService.getChefBySpecialty(requested));
     }
 
@@ -53,7 +53,7 @@ public class ChefController {
     public ResponseEntity<List<Chef>> saveChef(@RequestBody Chef chefToSave){
         System.out.println("It reached here");
         HttpHeaders header = new HttpHeaders();
-        header.add("Custom - Header", "Details");
+        header.add("Custom-Header", "Save-Chef");
         return ResponseEntity.ok().body(List.of(chefService.saveChef(chefToSave)));
     }
 
@@ -61,14 +61,14 @@ public class ChefController {
     public ResponseEntity<List<Optional<Chef>>> updChef(@RequestParam Long chefId, @RequestParam String email, @RequestParam Double salary, @RequestParam Double yrsOfExperience){
         System.out.print("Amazing");
         HttpHeaders header = new HttpHeaders();
-        header.add("Custom - Header", "Details");
+        header.add("Custom-Header", "Update-Chef");
         return ResponseEntity.ok().body(List.of(chefService.updateChefById(chefId,email,salary,yrsOfExperience)));
     }
 
     @DeleteMapping("/api/delChef")
     public ResponseEntity<String> delChef(@RequestParam Long chefId){
         HttpHeaders header = new HttpHeaders();
-        header.add("Custom - Header", "Details");
+        header.add("Custom-Header", "Delete-Chef");
         return ResponseEntity.ok().body(chefService.deleteChefById(chefId));
     }
     @ExceptionHandler(Exception.class)
