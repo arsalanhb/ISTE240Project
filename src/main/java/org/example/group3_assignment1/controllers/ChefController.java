@@ -1,8 +1,7 @@
+//Adham Khalifa -- 418006637
+
 package org.example.group3_assignment1.controllers;
-
-
 import org.example.group3_assignment1.models.Chef;
-import org.example.group3_assignment1.models.Dish;
 import org.example.group3_assignment1.services.ChefService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +20,11 @@ public class ChefController {
     @GetMapping("/api/chefed")
     public ResponseEntity<List<Chef>> getAllChefs(){
         return ResponseEntity.ok().body(chefService.getAllChefs());
+    }
+
+    @GetMapping("/api/chefSpecialties")
+    public ResponseEntity<List<String>> getAllSpecialties(){
+        return ResponseEntity.ok().body(chefService.getAllSpecialties());
     }
 
     @GetMapping("/api/chefed/chefId/{requested}")
@@ -54,23 +58,23 @@ public class ChefController {
     }
 
     @PostMapping("/api/updChef")
-    public ResponseEntity<List<Chef>> updChef(@RequestParam Long chefId, @RequestParam String email, @RequestParam Double salary, @RequestParam Double yrsOfExperience){
+    public ResponseEntity<List<Optional<Chef>>> updChef(@RequestParam Long chefId, @RequestParam String email, @RequestParam Double salary, @RequestParam Double yrsOfExperience){
         System.out.print("Amazing");
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
         return ResponseEntity.ok().body(List.of(chefService.updateChefById(chefId,email,salary,yrsOfExperience)));
     }
 
-    @PostMapping("/api/delChef")
+    @DeleteMapping("/api/delChef")
     public ResponseEntity<String> delChef(@RequestParam Long chefId){
         HttpHeaders header = new HttpHeaders();
         header.add("Custom - Header", "Details");
         return ResponseEntity.ok().body(chefService.deleteChefById(chefId));
     }
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> incorrectInfo(RuntimeException msg){
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> incorrectInfo(Exception msg){
         System.out.println(msg.getMessage());
-        return new ResponseEntity<>(msg.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(msg.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 
 }
