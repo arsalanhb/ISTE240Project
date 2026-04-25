@@ -22,47 +22,47 @@ public class RestaurantService {
 
 
     public RestaurantService(){
-        Waiter waiter1 = new Waiter(1, "John", "Doe", 20000.0);
-        Waiter waiter2 = new Waiter(2, "Jane", "Doe", 19000.0);
-        Waiter waiter3 = new Waiter(3, "Jack", "Doe", 19000.0);
-        Waiter waiter4 = new Waiter(4, "Jenny", "Doe", 19000.0);
+        Waiter waiter1 = new Waiter("John", "Doe", 20000.0);
+        Waiter waiter2 = new Waiter("Jane", "Doe", 19000.0);
+        Waiter waiter3 = new Waiter("Jack", "Doe", 19000.0);
+        Waiter waiter4 = new Waiter("Jenny", "Doe", 19000.0);
         waiterList.add(waiter1);
         waiterList.add(waiter2);
         waiterList.add(waiter3);
         waiterList.add(waiter4);
 
-        Customer cus1 = new Customer(waiter1, 1, "Ahmed", "Badr", "Mexican");
-        Customer cus2 = new Customer(waiter2, 2, "Maryam", "Bassem", "Arabic");
-        Customer cus3 = new Customer(waiter2, 3, "Jason", "Snow", "Mexican");
+        Customer cus1 = new Customer(waiter1, "Ahmed", "Badr", "Mexican");
+        Customer cus2 = new Customer(waiter2, "Maryam", "Bassem", "Arabic");
+        Customer cus3 = new Customer(waiter2, "Jason", "Snow", "Mexican");
         customerList.add(cus1);
         customerList.add(cus2);
         customerList.add(cus3);
-        Dish dish1 = new Dish(true, "Jordanian", "Rice cooked with yogurt sauce and served with lamb", "Mansaf", 25);
-        Dish dish2 = new Dish(true, "Jordanian", "Layered rice, meat, and vegetables baked together", "Maqluba", 22);
-        Dish dish3 = new Dish(true, "Jordanian", "Chickpea patties deep-fried, served with tahini and salad", "Falafel", 15);
+        Dish dish1 = new Dish("Jordanian", "Rice cooked with yogurt sauce and served with lamb", "Mansaf", 25);
+        Dish dish2 = new Dish("Jordanian", "Layered rice, meat, and vegetables baked together", "Maqluba", 22);
+        Dish dish3 = new Dish("Jordanian", "Chickpea patties deep-fried, served with tahini and salad", "Falafel", 15);
 
         jorDishList.add(dish1);
         jorDishList.add(dish2);
         jorDishList.add(dish3);
 
-        Dish dish4 = new Dish(true, "Greek", "Grilled lamb or beef with vegetables and tzatziki sauce", "Souvlaki", 22);
-        Dish dish5 = new Dish(true, "Greek", "Layered pastry with spinach and feta cheese", "Spanakopita", 18);
-        Dish dish6 = new Dish(true, "Greek", "Layers of eggplant, minced meat, tomatoes, and béchamel", "Moussaka", 25);
+        Dish dish4 = new Dish("Greek", "Grilled lamb or beef with vegetables and tzatziki sauce", "Souvlaki", 22);
+        Dish dish5 = new Dish("Greek", "Layered pastry with spinach and feta cheese", "Spanakopita", 18);
+        Dish dish6 = new Dish("Greek", "Layers of eggplant, minced meat, tomatoes, and béchamel", "Moussaka", 25);
 
         greDishList.add(dish4);
         greDishList.add(dish5);
         greDishList.add(dish6);
 
-        Dish dish7 = new Dish(true, "Turkish", "Grilled minced meat or chicken on skewers, served with rice", "Kebab", 20);
-        Dish dish8 = new Dish(true, "Turkish", "Thin dough topped with minced meat, vegetables, and spices, baked", "Lahmacun", 16);
-        Dish dish9 = new Dish(true, "Turkish", "Grilled cheese from goat or cow milk, served with vegetables", "Grilled Halloumi", 15);
+        Dish dish7 = new Dish("Turkish", "Grilled minced meat or chicken on skewers, served with rice", "Kebab", 20);
+        Dish dish8 = new Dish("Turkish", "Thin dough topped with minced meat, vegetables, and spices, baked", "Lahmacun", 16);
+        Dish dish9 = new Dish("Turkish", "Grilled cheese from goat or cow milk, served with vegetables", "Grilled Halloumi", 15);
 
         turDishList.add(dish7);
         turDishList.add(dish8);
         turDishList.add(dish9);
 
-        Chef jorChef = new Chef(1, "Ahmad", "Al-Khaled", 40000.0, "Jordanian", jorDishList, 12);
-        Chef greChef = new Chef(2, "Francesco", "Ritza", 40000.0, "Greek", greDishList, 12);
+        Chef jorChef = new Chef("Ahmad", "Al-Khaled", "ahmad.alkhaled@kebabshop.com", 40000.0, "Jordanian", 12);
+        Chef greChef = new Chef("Francesco", "Ritza", "francesco.ritza@kebabshop.com", 40000.0, "Greek", 12);
 
         chefList.add(jorChef);
         chefList.add(greChef);

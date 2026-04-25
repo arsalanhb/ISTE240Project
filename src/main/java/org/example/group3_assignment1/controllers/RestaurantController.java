@@ -49,7 +49,6 @@ public class RestaurantController {
     public String addCustomer(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String preference) {
         Customer newCus = new Customer(
                 restService.findAllWaiters().get(rand.nextInt(restService.findAllWaiters().size())),
-                restService.findAllCustomers().size() + 1,
                 firstName, lastName, preference
         );
         this.restService.addCustomer(newCus);
@@ -69,7 +68,7 @@ public class RestaurantController {
 
     @PostMapping("/chef/add")
     public String addChef(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String specialty, @RequestParam double salary, @RequestParam double yrsOfExperience){
-        Chef newChef = new Chef(restService.findAllChefs().size() + 1, firstName, lastName, salary, specialty, this.restService.findMap().get(specialty), yrsOfExperience);
+        Chef newChef = new Chef(firstName, lastName, firstName.toLowerCase() + "." + lastName.toLowerCase() + "@kebabshop.com", salary, specialty, yrsOfExperience);
         this.restService.addChef(newChef);
         return "redirect:/add/success/chef";
     }
@@ -86,7 +85,7 @@ public class RestaurantController {
 
     @PostMapping("/dish/add")
     public String addDish(@RequestParam boolean available, @RequestParam String category, @RequestParam String description, @RequestParam String dishName, @RequestParam double price){
-        Dish newDish = new Dish(available, category, description, dishName, price);
+        Dish newDish = new Dish(dishName, description, category, price);
         this.restService.addDish(newDish);
         return "redirect:/add/success/dish";
     }
@@ -104,7 +103,7 @@ public class RestaurantController {
 
     @PostMapping("/waiter/add")
     public String addWaiter(@RequestParam String firstName, @RequestParam String lastName, @RequestParam double salary) {
-        Waiter newWaiter = new Waiter(restService.findAllWaiters().size() + 1, firstName, lastName, salary);
+        Waiter newWaiter = new Waiter(firstName, lastName, salary);
         restService.addWaiter(newWaiter);
         return "redirect:/add/success/waiter";
     }
