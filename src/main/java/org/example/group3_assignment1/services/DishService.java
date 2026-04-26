@@ -1,6 +1,6 @@
+//Adham Khalifa -- 418006637
+
 package org.example.group3_assignment1.services;
-
-
 import jakarta.transaction.Transactional;
 import org.example.group3_assignment1.models.Chef;
 import org.example.group3_assignment1.models.Dish;
@@ -8,8 +8,8 @@ import org.example.group3_assignment1.repositories.ChefDAO;
 import org.example.group3_assignment1.repositories.DishDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 @Service
 @Transactional
@@ -27,14 +27,15 @@ public class DishService {
         return dishDao.findAll();
     }
 
-    public Dish findByDishId(Long id){
+
+    public Optional<Dish> findByDishId(Long id){
         if(!dishDao.existsById(id)){
             throw new RuntimeException("Dish with that ID does not exist");
         }
         return dishDao.findByDishId(id);
     }
 
-    public Dish findByDishName(String dishName){
+    public List<Dish> findByDishName(String dishName){
         if(!dishDao.existsByDishName(dishName)){
             throw new RuntimeException("Dish with that name does not exist");
         }
@@ -54,15 +55,13 @@ public class DishService {
         return dishDao.findByPriceLessThan(price);
     }
 
-    public Dish updateById(Long dishId, Dish updatedDish){
-        System.out.println("it reached this point");
 
+    public Optional<Dish> updateDishById(Long dishId, Dish updatedDish){
+        System.out.println("it reached this point");
+        System.out.println(dishId);
         Dish existingDish = dishDao.findById(dishId).orElseThrow(()->new RuntimeException("Dish doesn't Exist"));
-        existingDish.setDishName(updatedDish.getDishName());
-        existingDish.setDescription(updatedDish.getDescription());
-        existingDish.setCategory(updatedDish.getCategory());
-        existingDish.setPrice(updatedDish.getPrice());
-        return dishDao.save(existingDish);
+        dishDao.updateDishById(dishId, updatedDish.getDishName(), updatedDish.getDescription(), existingDish.getCategory(),updatedDish.getPrice(), updatedDish.isAvailable());
+        return findByDishId(dishId);
 
     }
 
@@ -84,7 +83,9 @@ public class DishService {
         }
         System.out.println("save dish here");
         List<Chef> chefs = chefDao.findBySpecialty(dishToSave.getCategory());
-
+        if(chefs.isEmpty()){
+            throw new RuntimeException("No chef available for such a category");
+        }
         dishToSave.setChef(chefs.get(rand.nextInt(chefs.size())));
         System.out.println(dishToSave.getChef());
         return dishDao.save(dishToSave);
