@@ -1,0 +1,302 @@
+<!--Muhammad Arsalan Habib - 403000286-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Waiters - Kebab Shop</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="brand" href="/">Kebab Shop</a>
+    <a href="/dish.html">Dishes</a>
+    <a href="/chef.html">Chefs</a>
+    <a href="/waiter.html" class="active">Waiters</a>
+    <a href="/customer.html">Customers</a>
+</nav>
+
+<div class="page-wrapper">
+    <h1>Waiters</h1>
+
+
+    <div class="toolbar">
+        <label for="searchOption">Search By:</label>
+        <select id="searchOption">
+            <option value="id">Waiter ID</option>
+            <option value="firstName">First Name</option>
+            <option value="salary">Min Salary</option>
+        </select>
+        <label for="requested">Value:</label>
+        <input id="requested" type="search" placeholder="Enter search value">
+        <button id="submit">Search</button>
+    </div>
+
+
+    <div class="toolbar">
+        <button id="addBtn">+ Add Waiter</button>
+        <button id="updBtn">Update Waiter</button>
+        <button id="delBtn">Delete Waiter</button>
+        <button id="reloadBtn">Reload</button>
+    </div>
+
+
+    <form id="addWaiter">
+        <div>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" placeholder="First Name">
+        </div>
+        <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" placeholder="Last Name">
+        </div>
+        <div>
+            <label for="salary">Salary</label>
+            <input type="number" step="any" id="salary" placeholder="Salary">
+        </div>
+        <button id="addSubmit" type="button">Submit</button>
+    </form>
+
+
+    <form id="updWaiter">
+        <div>
+            <label for="idUpd">Waiter ID</label>
+            <input type="number" id="idUpd" placeholder="ID">
+        </div>
+        <div>
+            <label for="firstNameUpd">First Name</label>
+            <input type="text" id="firstNameUpd" placeholder="First Name">
+        </div>
+        <div>
+            <label for="lastNameUpd">Last Name</label>
+            <input type="text" id="lastNameUpd" placeholder="Last Name">
+        </div>
+        <div>
+            <label for="salaryUpd">Salary</label>
+            <input type="number" step="any" id="salaryUpd" placeholder="Salary">
+        </div>
+        <button id="updSubmit" type="button">Submit</button>
+    </form>
+
+
+    <form id="delWaiter">
+        <div>
+            <label for="waiterIdDel">Waiter ID</label>
+            <input type="number" id="waiterIdDel" placeholder="ID">
+        </div>
+        <button id="delSubmit" type="button">Delete</button>
+    </form>
+
+
+    <div id="waiterDiv"></div>
+
+    <a href="/" class="btn-back">← Back to Home</a>
+</div>
+
+<script>
+    let tab = "<table>"
+
+    function checkEmpty() {
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i] === "") {
+                alert("One or more fields are empty")
+                return false
+            }
+        }
+        return true
+    }
+
+    function checkType(data, reg) {
+        return data.search(reg) !== -1
+    }
+
+    function validation(firstName, lastName, salary) {
+        if (!checkType(firstName, /^[a-zA-Z ]+$/) || !checkType(lastName, /^[a-zA-Z ]+$/)) {
+            alert("Not valid type, enter text for First Name and Last Name")
+            return false
+        }
+        if (!checkType(salary, /^[0-9]+[.]?[0-9]*$/)) {
+            alert("Not valid type, enter a number for Salary")
+            return false
+        }
+        return true
+    }
+
+    function tableInit() {
+        tab += "<tr>"
+        tab += "<th>ID</th>"
+        tab += "<th>First Name</th>"
+        tab += "<th>Last Name</th>"
+        tab += "<th>Salary</th>"
+        tab += "</tr>"
+    }
+
+    function tableSeed(data) {
+        tab += "<tr>"
+        tab += `<td>${data.id}</td>`
+        tab += `<td>${data.firstName}</td>`
+        tab += `<td>${data.lastName}</td>`
+        tab += `<td>${data.salary}</td>`
+        tab += "</tr>"
+    }
+
+    function reloadTable() {
+        tab = "<table>"
+        tableInit()
+        $.get("/api/waiters", function (data) {
+            for (let i = 0; i < data.length; i++) {
+                tableSeed(data[i])
+            }
+            tab += "</table>"
+            $("#waiterDiv").html(tab)
+        })
+    }
+
+
+    $(document).ready(function () {
+        $("#addWaiter,#updWaiter,#delWaiter").hide()
+        tableInit()
+        $.get("/api/waiters", function (data) {
+            for (let i = 0; i < data.length; i++) {
+                tableSeed(data[i])
+            }
+            tab += "</table>"
+            $("#waiterDiv").html(tab)
+        })
+    })
+
+
+    $("#submit").click(function () {
+        let method    = $("#searchOption").val()
+        let requested = $("#requested").val()
+
+        if (requested === "") {
+            alert("Please enter a search value")
+            return
+        }
+        if (method === "id" && checkType(requested, /^[0-9]+$/) === false) {
+            alert("Must enter a number for ID")
+            return
+        }
+        if (method === "firstName" && checkType(requested, /^[a-zA-Z]+$/) === false) {
+            alert("Must enter text for First Name")
+            return
+        }
+        if (method === "salary" && checkType(requested, /^[0-9]+[.]?[0-9]*$/) === false) {
+            alert("Must enter a number for Salary")
+            return
+        }
+
+        $.ajax({
+            url: `/api/waiters/${method}/${requested}`,
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                tab = "<table>"
+                tableInit()
+                for (let i = 0; i < data.length; i++) {
+                    tableSeed(data[i])
+                }
+                tab += "</table>"
+                $("#waiterDiv").html(tab)
+            },
+            error: function (data) {
+                alert(data.responseText)
+            }
+        })
+    })
+    $("#reloadBtn").click(function () { reloadTable() })
+    $("#addBtn").click(function () { $("#addWaiter").toggle() })
+    $("#updBtn").click(function () { $("#updWaiter").toggle() })
+    $("#delBtn").click(function () { $("#delWaiter").toggle() })
+
+    $("#addSubmit").click(function (event) {
+        event.preventDefault()
+        let firstName = $("#firstName").val()
+        let lastName  = $("#lastName").val()
+        let salary    = $("#salary").val()
+
+        console.log(firstName)
+        console.log(lastName)
+        console.log(salary)
+
+        if (checkEmpty(firstName, lastName, salary) === false) return
+        if (!validation(firstName, lastName, salary)) return
+
+        $.ajax({
+            url: "/api/waiters",
+            type: 'POST',
+            // contentType: 'application/json',
+            data: { firstName: firstName, lastName: lastName, salary: salary },
+            success: function (data) {
+                tab = "<table>"
+                tableInit()
+                for (let i = 0; i < data.length; i++) {
+                    tableSeed(data[i])
+                }
+                tab += "</table>"
+                $("#waiterDiv").html(tab)
+            },
+            error: function (data) {
+                alert(data.responseText)
+            }
+        })
+    })
+
+
+    $("#updSubmit").click(function (event) {
+        event.preventDefault()
+        let id        = $("#idUpd").val()
+        let firstName = $("#firstNameUpd").val()
+        let lastName  = $("#lastNameUpd").val()
+        let salary    = $("#salaryUpd").val()
+
+        if (checkEmpty(id, firstName, lastName, salary) === false) return
+        if (!validation(firstName, lastName, salary)) return
+
+        $.ajax({
+            url: `/api/waiters/${id}`,
+            type: 'PUT',
+            //contentType: 'application/json',
+            data: { firstName: firstName, lastName: lastName, salary: salary },
+            success: function (data) {
+                tab = "<table>"
+                tableInit()
+                for (let i = 0; i < data.length; i++) {
+                    tableSeed(data[i])
+                }
+                tab += "</table>"
+                $("#waiterDiv").html(tab)
+            },
+            error: function (data) {
+                alert(data.responseText)
+            }
+        })
+    })
+
+
+    $("#delSubmit").click(function (event) {
+        event.preventDefault()
+        let id = $("#waiterIdDel").val()
+
+        if (id === "") {
+            alert("Must enter ID to delete")
+            return
+        }
+
+        $.ajax({
+            url: `/api/waiters/${id}`,
+            type: 'DELETE',
+            success: function (data) {
+                alert(data)
+                reloadTable()
+            },
+            error: function (data) {
+                alert(data.responseText)
+            }
+        })
+    })
+</script>
+</body>
+</html>

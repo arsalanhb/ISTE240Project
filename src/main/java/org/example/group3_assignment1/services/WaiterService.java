@@ -5,6 +5,7 @@ import org.example.group3_assignment1.models.Waiter;
 import org.example.group3_assignment1.repositories.WaiterDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.example.group3_assignment1.repositories.CustomerDAO;
 
 import java.util.List;
 
@@ -13,6 +14,9 @@ public class WaiterService {
 
     @Autowired
     private WaiterDAO waiterDao;
+
+    @Autowired
+    private CustomerDAO customerDao;
 
     public List<Waiter> getAllWaiters() {
         return waiterDao.findAll();
@@ -33,6 +37,7 @@ public class WaiterService {
         return waiterDao.findBySalaryGreaterThanEqual(minSalary);
     }
     public List<Waiter> saveWaiter(Waiter waiterToSave) {
+        System.out.print("Reached Service");
         if (waiterToSave.getFirstName() == null || waiterToSave.getFirstName().isEmpty()) {
             throw new IllegalArgumentException("Waiter first name cannot be null or empty");
         }
@@ -43,12 +48,14 @@ public class WaiterService {
         existingWaiter.setFirstName(updatedWaiter.getFirstName());
         existingWaiter.setLastName(updatedWaiter.getLastName());
         existingWaiter.setSalary(updatedWaiter.getSalary());
+
         return List.of(waiterDao.save(existingWaiter));
     }
     public String deleteWaiterById(int id) {
         if (!waiterDao.existsById(id)) {
             throw new RuntimeException("Waiter with that ID does not exist");
         }
+        customerDao.unassignWaiterFromCustomers(id);
         waiterDao.deleteById(id);
         return "Successfully deleted waiter";
     }

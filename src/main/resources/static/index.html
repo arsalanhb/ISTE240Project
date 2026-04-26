@@ -3,127 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>Kebab Shop</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #383131;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            line-height: 1.5;
-            color: #fdfdfd;
-        }
-        h1 { color: #d35400; text-align: center; }
-        hr { border: 0; border-top: 1px solid #ddd; }
-        ul { padding-left: 20px; }
-        .description { font-style: italic; color: #fdfdfd; text-align: center; }
-
-        .cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .card {
-            background-color: #4a3f3f;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-        }
-        .card h3 {
-            margin: 0 0 5px 0;
-            color: #d35400;
-            font-size: 20px;
-        }
-        .card p {
-            margin: 0 0 15px 0;
-            font-size: 13px;
-            color: #ccc;
-        }
-        .card-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        .card-buttons a {
-            flex: 1;
-            padding: 8px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .btn-view {
-            background-color: #d35400;
-            color: white;
-        }
-        .btn-view:hover { background-color: #b94600; }
-        .btn-add {
-            background-color: transparent;
-            color: #d35400;
-            border: 2px solid #d35400;
-        }
-        .btn-add:hover { background-color: #d35400; color: white; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>🥙 Kebab Shop</h1>
-<p class="description">
-    Authentic Levantine flavors in the heart of DSO. We specialize in slow-roasted meats,
-    hand-stretched pita, and the creamiest hummus in Dubai.
-</p>
-<hr>
-<h3>Menu</h3>
-<ul>
-    <li><b>Beef Doner</b> - AED 12</li>
-    <li><b>Chicken Shish</b> - AED 11</li>
-    <li><b>Falafel Wrap</b> - AED 9</li>
-    <li><b>Hummus & Pita</b> - AED 5</li>
-</ul>
-<hr>
-<h3>Explore Our Restaurant</h3>
-<div class="cards">
-    <div class="card">
-        <h3>🍽️ Dishes</h3>
-        <p>Browse or add menu items</p>
-        <div class="card-buttons">
-            <a href="/dish" class="btn-view">View</a>
-            <a href="/dish/add" class="btn-add">+ Add</a>
+
+<nav class="navbar">
+    <a class="brand" href="/">Kebab Shop</a>
+    <a href="/dish.html">Dishes</a>
+    <a href="/chef.html">Chefs</a>
+    <a href="/waiter.html">Waiters</a>
+    <a href="/customer.html">Customers</a>
+</nav>
+
+<div class="index-wrapper">
+    <h1>Kebab Shop</h1>
+    <p class="description">
+        Authentic Levantine flavors in the heart of DSO. We specialize in slow-roasted meats,
+        hand-stretched pita, and the creamiest hummus in Dubai.
+    </p>
+    <hr>
+    <h3>Menu</h3>
+    <ul>
+        <li><b>Beef Doner</b> - AED 12</li>
+        <li><b>Chicken Shish</b> - AED 11</li>
+        <li><b>Falafel Wrap</b> - AED 9</li>
+        <li><b>Hummus & Pita</b> - AED 5</li>
+    </ul>
+    <hr>
+    <h3>Explore Our Restaurant</h3>
+    <div class="cards">
+        <div class="card">
+            <h3>Dishes</h3>
+            <p>Browse or add menu items</p>
+            <div class="card-buttons">
+                <a href="/dish.html" class="btn-view">View</a>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Chefs</h3>
+            <p>Browse or add chefs</p>
+            <div class="card-buttons">
+                <a href="/chef.html" class="btn-view">View</a>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Waiters</h3>
+            <p>Browse or add waiters</p>
+            <div class="card-buttons">
+                <a href="/waiter.html" class="btn-view">View</a>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Customers</h3>
+            <p>Browse or add customers</p>
+            <div class="card-buttons">
+                <a href="/customer.html" class="btn-view">View</a>
+            </div>
         </div>
     </div>
-    <div class="card">
-        <h3>👨‍🍳 Chefs</h3>
-        <p>Browse or add chefs</p>
-        <div class="card-buttons">
-            <a href="/chef" class="btn-view">View</a>
-            <a href="/chef/add" class="btn-add">+ Add</a>
-        </div>
-    </div>
-    <div class="card">
-        <h3>🧑‍💼 Waiters</h3>
-        <p>Browse or add waiters</p>
-        <div class="card-buttons">
-            <a href="/waiter" class="btn-view">View</a>
-            <a href="/waiter/add" class="btn-add">+ Add</a>
-        </div>
-    </div>
-    <div class="card">
-        <h3>🪑 Customers</h3>
-        <p>Browse or add customers</p>
-        <div class="card-buttons">
-            <a href="/customer" class="btn-view">View</a>
-            <a href="/customer/add" class="btn-add">+ Add</a>
-        </div>
-    </div>
+    <hr>
+    <h3>Find Us</h3>
+    <p>
+        Dubai Silicon Oasis - Souq Extra<br>
+        <b>Open:</b> 9am - 12PM
+    </p>
+    <p><b>050 1234567</b></p>
 </div>
-<hr>
-<h3>Find Us</h3>
-<p>
-    Dubai Silicon Oasis - Souq Extra<br>
-    <b>Open:</b> 9am - 12PM
-</p>
-<p>📞 <b>050 1234567</b></p>
+
 </body>
 </html>

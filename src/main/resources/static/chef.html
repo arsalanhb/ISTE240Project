@@ -3,138 +3,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chefs - Kebab Shop</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <style>
-        form {
-            display: flex;
-            gap: 10px;
-        }
-         .dish-list {
-             margin: 0;
-             padding-left: 18px;
-             list-style-type: disc;
-         }
-
-        .dish-list li {
-            font-size: 13px;
-            margin-bottom: 3px;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-family: Arial, sans-serif;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #2c3e50;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #e6f7ff;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
+
+<nav class="navbar">
+    <a class="brand" href="/">Kebab Shop</a>
+    <a href="/dish.html">Dishes</a>
+    <a href="/chef.html" class="active">Chefs</a>
+    <a href="/waiter.html">Waiters</a>
+    <a href="/customer.html">Customers</a>
+</nav>
+
+<div class="page-wrapper">
+    <h1>Chefs</h1>
+
+
+    <div class="toolbar">
         <label for="searchOption">Search By:</label>
         <select name="searchOption" id="searchOption">
             <option value="chefId">Chef Id</option>
             <option value="fullName">Chef Full Name</option>
             <option value="specialty">Specialty</option>
         </select>
-        <label for="requested">Request: </label>
-        <input id="requested" name="requested" type="search">
-        <button id="submit">Submit</button>
+        <label for="requested">Value:</label>
+        <input id="requested" name="requested" type="search" placeholder="Enter search value">
+        <button id="submit">Search</button>
     </div>
-    <button id="addBtn">Add</button>
+
+
+    <div class="toolbar">
+        <button id="addBtn">+ Add Chef</button>
+        <button id="updBtn">Update Chef</button>
+        <button id="delBtn">Delete Chef</button>
+        <button id="reloadBtn">Reload</button>
+    </div>
+
+
     <form id="addChef">
         <div>
-            <label for="firstName">First Name: </label>
+            <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName" placeholder="First Name">
         </div>
         <div>
-            <label for="lastName">Last Name: </label>
+            <label for="lastName">Last Name</label>
             <input type="text" id="lastName" name="lastName" placeholder="Last Name">
         </div>
         <div>
-            <label for="email">Email: </label>
+            <label for="email">Email</label>
             <input type="text" id="email" name="email" placeholder="Email">
         </div>
         <div>
-            <label for="specialty">Specialty: </label>
+            <label for="specialty">Specialty</label>
             <input type="text" id="specialty" name="specialty" placeholder="Specialty">
         </div>
         <div>
-            <label for="salary">Salary: </label>
+            <label for="salary">Salary</label>
             <input type="number" step="any" id="salary" name="salary" placeholder="Salary">
         </div>
         <div>
-            <label for="yrsOfExperience">Years of Experience: </label>
+            <label for="yrsOfExperience">Years of Experience</label>
             <input type="number" step="any" id="yrsOfExperience" name="yrsOfExperience" placeholder="Experience">
         </div>
-
-        <button id="dishChefBtn" type="button">Add</button>
-        <div id="dishChef">
-        </div>
+        <button id="dishChefBtn" type="button">+ Add Dish</button>
+        <div id="dishChef"></div>
         <button id="addSubmit" type="button">Submit</button>
     </form>
 
-    <button id="updBtn">Update</button>
+
     <form id="updChef">
         <div>
-            <label for="idUpd">First Name: </label>
-            <input type="text" id="idUpd" name="idUpd" placeholder="Id">
+            <label for="idUpd">Chef ID</label>
+            <input type="text" id="idUpd" name="idUpd" placeholder="ID">
         </div>
         <div>
-            <label for="firstNameUpd">First Name: </label>
+            <label for="firstNameUpd">First Name</label>
             <input type="text" id="firstNameUpd" name="firstName" placeholder="First Name">
         </div>
         <div>
-            <label for="lastNameUpd">Last Name: </label>
+            <label for="lastNameUpd">Last Name</label>
             <input type="text" id="lastNameUpd" name="lastName" placeholder="Last Name">
         </div>
         <div>
-            <label for="emailUpd">Email: </label>
+            <label for="emailUpd">Email</label>
             <input type="text" id="emailUpd" name="email" placeholder="Email">
         </div>
         <div>
-            <label for="specialtyUpd">Specialty: </label>
+            <label for="specialtyUpd">Specialty</label>
             <input type="text" id="specialtyUpd" name="specialty" placeholder="Specialty">
         </div>
         <div>
-            <label for="salaryUpd">Salary: </label>
+            <label for="salaryUpd">Salary</label>
             <input type="number" step="any" id="salaryUpd" name="salary" placeholder="Salary">
         </div>
         <div>
-            <label for="yrsOfExperienceUpd">Years of Experience: </label>
+            <label for="yrsOfExperienceUpd">Years of Experience</label>
             <input type="number" step="any" id="yrsOfExperienceUpd" name="yrsOfExperience" placeholder="Experience">
         </div>
         <button id="updSubmit" type="button">Submit</button>
     </form>
-        <button id="delBtn">Delete</button>
-        <form id="delChef">
+
+
+    <form id="delChef">
         <div>
-            <label for="chefIdDel">Chef Id: </label>
-            <input type="text" id="chefIdDel" name="chefIdDel" placeholder="Id">
+            <label for="chefIdDel">Chef ID</label>
+            <input type="text" id="chefIdDel" name="chefIdDel" placeholder="ID">
         </div>
-        <button id="delSubmit" type="button">Submit</button>
+        <button id="delSubmit" type="button">Delete</button>
     </form>
+
+
     <div id="chefDiv"></div>
-</body>
+
+    <a href="/" class="btn-back">← Back to Home</a>
+</div>
+
 <script>
     let objects = []
 
@@ -150,7 +135,6 @@
 
     function checkType(data, reg){
         return data.search(reg) !== -1;
-
     }
 
     function validation(firstName, lastName, specialty, email, salary, yrsOfExperience){
@@ -158,14 +142,13 @@
             alert("Not valid type, enter text please for one or more of the following entries: First Name, Last Name, Specialty")
             return false
         }
-
         if(!checkType(email, /^\w+@gmail.com/)){
             alert("Not valid email format, please use gmail account")
             return false
         }
         if(!checkType(salary, /^[0-9]+$/) || !checkType(yrsOfExperience, /^[0-6][0-9]?$/)){
             alert("Not valid type, enter a number please for one or more of the following entries: Salary, Years of Experience(0 - 69)")
-                return false
+            return false
         }
         return true
     }
@@ -193,19 +176,15 @@
         tab +=  `<td>${data.specialty}</td>`
         tab +=  `<td>${data.yrsOfExperience}</td>`
         let dishHtml = "<ul class='dish-list'>";
-
         for(let i = 0; i < data.dishList.length; i++){
             let d = data.dishList[i];
             dishHtml += `<li>${d.dishName}: ${d.description}</li>`;
         }
         dishHtml += "</ul>";
-
         tab += `<td>${dishHtml}</td>`
-        tab += "</tr>"
         tab += "</tr>"
         console.log(data)
     }
-
 
     let tab = "<table>"
     $(document).ready(function(){
@@ -214,19 +193,16 @@
         let api = "/api/chefed"
         $.get(api, function(data){
             for(let i = 0; i<data.length; i++){
-                let line = data[i];
-                tableSeed(line)
+                tableSeed(data[i])
             }
             tab+="</table>"
             $("#chefDiv").html(tab)
-
         })
     })
 
     $("#submit").click(function(){
         let method = $("#searchOption").val().trim()
         let requested = $("#requested").val().trim()
-
         if((method === "specialty") && requested.search(/^[a-zA-Z ]+$/) === -1){
             alert("Must enter text")
             return;
@@ -239,119 +215,97 @@
             alert("Must enter a number")
             return
         }
-        const apiUrl = `/api/chefed/${method}/${requested}`
         $.ajax({
-            url: apiUrl,
+            url: `/api/chefed/${method}/${requested}`,
             type: 'GET',
             contentType: 'application/json',
             success: function(data){
                 tab="<table>"
                 tableInit()
                 for(let i = 0; i<data.length; i++){
-                    let line = data[i];
-                    tableSeed(line)
-
+                    tableSeed(data[i])
                 }
                 tab+="</table>"
                 $("#chefDiv").html(tab)
             },
-            error: function(data){
-                alert(data.responseText)
-
-            }
+            error: function(data){ alert(data.responseText) }
         })
-
-
     })
 
-    $("#addBtn").click(function(){
-        $("#addChef").toggle()
-    })
-    $("#updBtn").click(function(){
-        $("#updChef").toggle()
-    })
-    $("#delBtn").click(function(){
-        $("#delChef").toggle()
-    })
 
+    function reloadTable() {
+        tab = "<table>"
+        tableInit()
+        $.get("/api/chefed", function(data){
+            for(let i = 0; i < data.length; i++){ tableSeed(data[i]) }
+            tab += "</table>"
+            $("#chefDiv").html(tab)
+        })
+    }
+    $("#reloadBtn").click(function () { reloadTable() })
+
+
+    $("#addBtn").click(function(){ $("#addChef").toggle() })
+    $("#updBtn").click(function(){ $("#updChef").toggle() })
+    $("#delBtn").click(function(){ $("#delChef").toggle() })
 
     $("#addSubmit").click(function(event) {
         event.preventDefault()
-        const apiUrl = "/api/addChef"
         let firstName = $("#firstName").val().trim()
         let lastName = $("#lastName").val().trim()
         let email = $("#email").val().trim()
         let salary = $("#salary").val().trim()
         let specialty = $("#specialty").val().trim()
         let yrsOfExperience = $("#yrsOfExperience").val().trim()
-
-        if(checkEmpty(firstName, lastName, email, salary, specialty, yrsOfExperience) === false){
-            return
-        }
-
-        if(!validation(firstName, lastName, specialty, email, salary, yrsOfExperience)){
-            return
-        }
-
+        if(checkEmpty(firstName, lastName, email, salary, specialty, yrsOfExperience) === false) return
+        if(!validation(firstName, lastName, specialty, email, salary, yrsOfExperience)) return
         $.ajax({
-            url: apiUrl,
+            url: "/api/addChef",
             type: 'POST',
-            contentType: 'application/JSON',
-            data: JSON.stringify({firstName: firstName, lastName: lastName, email:email, salary: salary,specialty: specialty, yrsOfExperience: yrsOfExperience, dishList: objects}),
+            contentType: 'application/json',
+            data: JSON.stringify({firstName: firstName, lastName: lastName, email:email, salary: salary, specialty: specialty, yrsOfExperience: yrsOfExperience, dishList: objects}),
             success: function (data) {
                 tab="<table>"
                 tableInit()
-                for (let i = 0; i < data.length; i++) {
-                    let line = data[i]
-                    tableSeed(line)
-                }
+                for (let i = 0; i < data.length; i++) { tableSeed(data[i]) }
                 tab += "</table>"
                 $("#chefDiv").html(tab)
             },
-            error: function (data) {
-                alert(data.responseText)
-
-            }
-
+            error: function (data) { alert(data.responseText) }
         })
         objects = []
     })
 
     $("#dishChefBtn").click(function(){
-        $("#dishChef").html(
-            `<div>
-            <label>Dish Name: </label>
-        <input type="text" id="dishName" name="dishName" placeholder="dishName">
-        </div>
-        <div>
-            <label>Description: </label>
-            <input type="text" id="description" name="description" placeholder="description">
-        </div>
-        <div>
-            <label>Price: </label>
-            <input type="number" id="price" name="price" placeholder="price">
-        </div>
-        <button id="dishChefSubmit" type="button">Submit</button>
-`
-        )
+        $("#dishChef").html(`
+            <div>
+                <label>Dish Name: </label>
+                <input type="text" id="dishName" name="dishName" placeholder="Dish Name">
+            </div>
+            <div>
+                <label>Description: </label>
+                <input type="text" id="description" name="description" placeholder="Description">
+            </div>
+            <div>
+                <label>Price: </label>
+                <input type="number" id="price" name="price" placeholder="Price">
+            </div>
+            <button id="dishChefSubmit" type="button">Add Dish</button>
+        `)
     })
 
-    $(document).on('click',"#dishChefSubmit",(function(){
+    $(document).on('click',"#dishChefSubmit", function(){
         let dishName = $("#dishName").val().trim()
         let description = $("#description").val().trim()
         let price = $("#price").val().trim()
-        if(!checkEmpty(dishName, description, price)){
-            return;
-        }
-        objects.push({dishName: dishName, description: description,price: price})
+        if(!checkEmpty(dishName, description, price)) return;
+        objects.push({dishName: dishName, description: description, price: price})
         console.log(objects)
         $("#dishName,#description,#price").val("")
-
-    }))
+    })
 
     $("#updSubmit").click(function (event) {
         event.preventDefault()
-        const apiUrl = "/api/updChef"
         let id = $("#idUpd").val().trim()
         let firstName = $("#firstNameUpd").val().trim()
         let lastName = $("#lastNameUpd").val().trim()
@@ -359,61 +313,45 @@
         let email = $("#emailUpd").val().trim()
         let salary = $("#salaryUpd").val().trim()
         let yrsOfExperience = $("#yrsOfExperienceUpd").val().trim()
-        if(checkEmpty(firstName, lastName, specialty, id, email, salary, yrsOfExperience) === false){
-            return;
-        }
+        if(checkEmpty(firstName, lastName, specialty, id, email, salary, yrsOfExperience) === false) return;
         validation(firstName, lastName, specialty, email, salary, yrsOfExperience)
         $.ajax({
-            url: apiUrl,
+            url: "/api/updChef",
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify({chefId: id, firstName:firstName, lastName:lastName, specialty:specialty,email:email, salary: salary, yrsOfExperience: yrsOfExperience}),
+            data: JSON.stringify({chefId: id, firstName:firstName, lastName:lastName, specialty:specialty, email:email, salary: salary, yrsOfExperience: yrsOfExperience}),
             success: function (data) {
                 tab="<table>"
                 tableInit()
-                for (let i = 0; i < data.length; i++) {
-                    let line = data[i]
-                    tableSeed(line)
-                }
+                for (let i = 0; i < data.length; i++) { tableSeed(data[i]) }
                 tab += "</table>"
                 $("#chefDiv").html(tab)
             },
-            error: function (data) {
-                alert(data.responseText)
-            }
+            error: function (data) { alert(data.responseText) }
         })
     })
 
     $("#delSubmit").click(function(e){
-        const apiUrl = "/api/delChef"
+        e.preventDefault()
         let id = $("#chefIdDel").val().trim();
-        if(!checkEmpty(id)){
-            return;
-        }
+        if(!checkEmpty(id)) return;
         $.ajax({
-            url: apiUrl,
+            url: "/api/delChef",
             type: 'DELETE',
             data:{chefId: id},
             success: function(data){
                 alert(data)
                 tab="<table>"
-                newApi = "/api/chefed"
                 tableInit()
-                $.get(newApi, function(data){
-                    for(let i = 0; i<data.length; i++){
-                        let line = data[i];
-                        tableSeed(line)
-                    }
+                $.get("/api/chefed", function(data){
+                    for(let i = 0; i<data.length; i++){ tableSeed(data[i]) }
                     tab+="</table>"
                     $("#chefDiv").html(tab)
-            })},
-
-            error: function(data){
-                alert(data.responseText)
-            }
+                })
+            },
+            error: function(data){ alert(data.responseText) }
         })
-        e.preventDefault();
     })
-
 </script>
+</body>
 </html>

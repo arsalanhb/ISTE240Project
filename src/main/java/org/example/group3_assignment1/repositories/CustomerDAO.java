@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.List;
 
 public interface CustomerDAO extends JpaRepository<Customer, Integer> {
@@ -20,4 +21,9 @@ public interface CustomerDAO extends JpaRepository<Customer, Integer> {
     @Transactional
     @Query("update Customer c set c.assignedWaiter = (select w from Waiter w where w.id = :waiterId) where c.customerId = :customerId")
     void updateCustomerWaiter(@Param("customerId") int customerId, @Param("waiterId") int waiterId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Customer c SET c.assignedWaiter = null WHERE c.assignedWaiter.id = :waiterId")
+    void unassignWaiterFromCustomers(@Param("waiterId") int waiterId);
 }
