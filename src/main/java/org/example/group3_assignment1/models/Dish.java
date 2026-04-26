@@ -4,6 +4,8 @@ package org.example.group3_assignment1.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name="dishes")
 public class Dish {
@@ -95,5 +97,16 @@ public class Dish {
 
     public void setChef(Chef chef) {
         this.chef = chef;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Dish dish)) return false;
+        return Objects.equals(description, dish.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(description);
     }
 }

@@ -163,7 +163,7 @@
             return false
         }
         if(!checkType(salary, /^[0-9]+$/) || !checkType(yrsOfExperience, /^[0-6][0-9]?$/)){
-            alert("Not valid type, enter a number please for one or more of the following entries: Salary, Years of Experience")
+            alert("Not valid type, enter a number please for one or more of the following entries: Salary, Years of Experience(0 - 69)")
                 return false
         }
         return true
@@ -339,9 +339,13 @@
         let dishName = $("#dishName").val()
         let description = $("#description").val()
         let price = $("#price").val()
-        checkEmpty(dishName, description, price)
+        if(!checkEmpty(dishName, description, price)){
+            return;
+        }
         objects.push({dishName: dishName, description: description,price: price})
         console.log(objects)
+        $("#dishName,#description,#price").val("")
+
     }))
 
     $("#updSubmit").click(function (event) {
@@ -382,7 +386,9 @@
     $("#delSubmit").click(function(e){
         const apiUrl = "/api/delChef"
         let id = $("#chefIdDel").val();
-        checkEmpty(id)
+        if(!checkEmpty(id)){
+            return;
+        }
         $.ajax({
             url: apiUrl,
             type: 'DELETE',
