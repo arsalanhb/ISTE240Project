@@ -1,7 +1,9 @@
+//Adham Khalifa -- 418006637
+
 package org.example.group3_assignment1.models;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,23 +26,35 @@ public class Chef {
     private String specialty;
 
     @Column(nullable = false)
-    private double yrsOfExperience;
+    private Double yrsOfExperience;
 
     @Column(nullable = false)
-    private double salary;
+    private Double salary;
 
+
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "chef")
-    private List<Dish> dishList;
+    private List<Dish> dishList = new ArrayList<>();
 
     public Chef(){};
 
-    public Chef(String firstName, String lastName, String email,double salary, String specialty,double yrsOfExperience) {
+    public Chef(String firstName, String lastName, String email, Double salary, String specialty,Double yrsOfExperience) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.salary = salary;
         this.specialty = specialty;
         this.yrsOfExperience = yrsOfExperience;
+    }
+
+    public Chef(String firstName, String lastName, String email,Double salary, String specialty,Double yrsOfExperience,List<Dish> dishList) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.salary = salary;
+        this.specialty = specialty;
+        this.yrsOfExperience = yrsOfExperience;
+        this.dishList = dishList;
     }
 
     public Long getChefId() {
