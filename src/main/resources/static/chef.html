@@ -224,8 +224,8 @@
     })
 
     $("#submit").click(function(){
-        let method = $("#searchOption").val()
-        let requested = $("#requested").val()
+        let method = $("#searchOption").val().trim()
+        let requested = $("#requested").val().trim()
 
         if((method === "specialty") && requested.search(/^[a-zA-Z ]+$/) === -1){
             alert("Must enter text")
@@ -278,12 +278,12 @@
     $("#addSubmit").click(function(event) {
         event.preventDefault()
         const apiUrl = "/api/addChef"
-        let firstName = $("#firstName").val()
-        let lastName = $("#lastName").val()
-        let email = $("#email").val()
-        let salary = $("#salary").val()
-        let specialty = $("#specialty").val()
-        let yrsOfExperience = $("#yrsOfExperience").val()
+        let firstName = $("#firstName").val().trim()
+        let lastName = $("#lastName").val().trim()
+        let email = $("#email").val().trim()
+        let salary = $("#salary").val().trim()
+        let specialty = $("#specialty").val().trim()
+        let yrsOfExperience = $("#yrsOfExperience").val().trim()
 
         if(checkEmpty(firstName, lastName, email, salary, specialty, yrsOfExperience) === false){
             return
@@ -337,9 +337,9 @@
     })
 
     $(document).on('click',"#dishChefSubmit",(function(){
-        let dishName = $("#dishName").val()
-        let description = $("#description").val()
-        let price = $("#price").val()
+        let dishName = $("#dishName").val().trim()
+        let description = $("#description").val().trim()
+        let price = $("#price").val().trim()
         if(!checkEmpty(dishName, description, price)){
             return;
         }
@@ -352,13 +352,13 @@
     $("#updSubmit").click(function (event) {
         event.preventDefault()
         const apiUrl = "/api/updChef"
-        let id = $("#idUpd").val()
-        let firstName = $("#firstNameUpd").val()
-        let lastName = $("#lastNameUpd").val()
-        let specialty = $("#specialtyUpd").val()
-        let email = $("#emailUpd").val()
-        let salary = $("#salaryUpd").val()
-        let yrsOfExperience = $("#yrsOfExperienceUpd").val()
+        let id = $("#idUpd").val().trim()
+        let firstName = $("#firstNameUpd").val().trim()
+        let lastName = $("#lastNameUpd").val().trim()
+        let specialty = $("#specialtyUpd").val().trim()
+        let email = $("#emailUpd").val().trim()
+        let salary = $("#salaryUpd").val().trim()
+        let yrsOfExperience = $("#yrsOfExperienceUpd").val().trim()
         if(checkEmpty(firstName, lastName, specialty, id, email, salary, yrsOfExperience) === false){
             return;
         }
@@ -386,7 +386,7 @@
 
     $("#delSubmit").click(function(e){
         const apiUrl = "/api/delChef"
-        let id = $("#chefIdDel").val();
+        let id = $("#chefIdDel").val().trim();
         if(!checkEmpty(id)){
             return;
         }
