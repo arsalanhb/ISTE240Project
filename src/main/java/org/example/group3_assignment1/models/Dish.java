@@ -28,7 +28,7 @@ public class Dish {
     private boolean available = true;
 
     @ManyToOne
-    @JoinColumn(name="category", nullable = false)
+    @JoinColumn(name="chef_id", nullable = false)
     private Chef chef;
 
     public Dish(){}
