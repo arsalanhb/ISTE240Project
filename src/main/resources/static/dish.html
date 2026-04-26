@@ -159,8 +159,8 @@
 
 
     $("#submit").click(function(){
-        let method = $("#searchOption").val()
-        let requested = $("#requested").val()
+        let method = $("#searchOption").val().trim()
+        let requested = $("#requested").val().trim()
         let apiUrl = `/api/dished/${method}/${requested}`
 
 
@@ -200,10 +200,10 @@
     $("#addSubmit").click(function(event) {
         event.preventDefault()
         let apiUrl = "/api/addDish"
-        let dishName = $("#dishName").val()
-        let description = $("#description").val()
-        let category = $("#chefOptionSpecial").val()
-        let price = $("#price").val()
+        let dishName = $("#dishName").val().trim()
+        let description = $("#description").val().trim()
+        let category = $("#chefOptionSpecial").val().trim()
+        let price = $("#price").val().trim()
 
         if(checkEmpty(dishName, description, category, price) === false){
             return;
@@ -236,12 +236,12 @@
     })
     $("#updSubmit").click(function (event) {
         event.preventDefault()
-        let dishId = $("#idUpd").val()
-        let dishName = $("#dishNameUpd").val()
-        let description = $("#descriptionUpd").val()
+        let dishId = $("#idUpd").val().trim()
+        let dishName = $("#dishNameUpd").val().trim()
+        let description = $("#descriptionUpd").val().trim()
         let available = $("#available").is(":checked")
         console.log(available)
-        let price = $("#priceUpd").val()
+        let price = $("#priceUpd").val().trim()
         let apiUrl = `/api/dished/update`
         if(checkEmpty(dishId, dishName, description, available, price) === false){
             return;
@@ -278,7 +278,7 @@
     $("#delSubmit").click(function(event){
         event.preventDefault()
         let apiUrl = "/api/delDish"
-        let id = $("#dishIdDel").val();
+        let id = $("#dishIdDel").val().trim();
         if(id === ""){
             alert("Must enter ID to delete")
             return
