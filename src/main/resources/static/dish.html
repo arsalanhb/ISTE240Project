@@ -3,17 +3,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dishes - Kebab Shop</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <style>
-        form {
-            display: flex;
-            gap: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="singleResult">
+
+<nav class="navbar">
+    <a class="brand" href="/">Kebab Shop</a>
+    <a href="/dish.html" class="active">Dishes</a>
+    <a href="/chef.html">Chefs</a>
+    <a href="/waiter.html">Waiters</a>
+    <a href="/customer.html">Customers</a>
+</nav>
+
+<div class="page-wrapper">
+    <h1>Dishes</h1>
+
+
+    <div class="toolbar">
         <label for="searchOption">Search By:</label>
         <select name="searchOption" id="searchOption">
             <option value="dishId">Dish ID</option>
@@ -21,67 +29,80 @@
             <option value="category">Category</option>
             <option value="price">Price</option>
         </select>
-        <label for="requested">Request: </label>
-        <input id="requested" name="requested" type="search">
-        <button id="submit">Submit</button>
+        <label for="requested">Value:</label>
+        <input id="requested" name="requested" type="search" placeholder="Enter search value">
+        <button id="submit">Search</button>
     </div>
-    <button id="addBtn">Add</button>
+
+
+    <div class="toolbar">
+        <button id="addBtn">+ Add Dish</button>
+        <button id="updBtn">Update Dish</button>
+        <button id="delBtn">Delete Dish</button>
+        <button id="reloadBtn">Reload</button>
+    </div>
+
+
     <form id="addDish">
         <div>
-            <label for="dishName">Dish Name: </label>
-            <input type="text" id="dishName" name="dishName" placeholder="dishName">
+            <label for="dishName">Dish Name</label>
+            <input type="text" id="dishName" name="dishName" placeholder="Dish Name">
         </div>
         <div>
-            <label for="description">Description: </label>
-            <input type="text" id="description" name="description" placeholder="description">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" placeholder="Description">
         </div>
         <div>
-            <label for="chefOptionSpecial">Category: </label>
-            <select id="chefOptionSpecial">
-            </select>
+            <label for="chefOptionSpecial">Category</label>
+            <select id="chefOptionSpecial"></select>
         </div>
         <div>
-            <label for="price">Price: </label>
-            <input type="number" id="price" name="price" placeholder="price">
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" placeholder="Price">
         </div>
-
         <button id="addSubmit" type="button">Submit</button>
     </form>
 
-    <button id="updBtn">Update</button>
+
     <form id="updDish">
         <div>
-            <label for="idUpd">Dish Id: </label>
+            <label for="idUpd">Dish ID</label>
             <input type="number" id="idUpd" name="idUpd" placeholder="ID">
         </div>
         <div>
-            <label for="dishNameUpd">Dish Name: </label>
-            <input type="text" id="dishNameUpd" name="dishNameUpd" placeholder="dishName">
+            <label for="dishNameUpd">Dish Name</label>
+            <input type="text" id="dishNameUpd" name="dishNameUpd" placeholder="Dish Name">
         </div>
         <div>
-            <label for="available">Available: </label>
-            <input type="checkbox" id="available" name="available" placeholder="available">
+            <label for="available">Available</label>
+            <input type="checkbox" id="available" name="available">
         </div>
         <div>
-            <label for="descriptionUpd">Description: </label>
-            <input type="text" id="descriptionUpd" name="descriptionUpd" placeholder="description">
+            <label for="descriptionUpd">Description</label>
+            <input type="text" id="descriptionUpd" name="descriptionUpd" placeholder="Description">
         </div>
         <div>
-            <label for="priceUpd">Price: </label>
-            <input type="number" id="priceUpd" name="priceUpd" placeholder="price">
+            <label for="priceUpd">Price</label>
+            <input type="number" id="priceUpd" name="priceUpd" placeholder="Price">
         </div>
         <button id="updSubmit" type="button">Submit</button>
     </form>
-    <button id="delBtn">Delete</button>
+
+
     <form id="delDish">
         <div>
-            <label for="dishIdDel">Dish Id: </label>
-            <input type="text" id="dishIdDel" name="dishIdDel" placeholder="dishIdDel">
+            <label for="dishIdDel">Dish ID</label>
+            <input type="text" id="dishIdDel" name="dishIdDel" placeholder="ID">
         </div>
-        <button id="delSubmit">Submit</button>
+        <button id="delSubmit" type="button">Delete</button>
     </form>
+
+
     <div id="dishDiv"></div>
-</body>
+
+    <a href="/" class="btn-back">← Back to Home</a>
+</div>
+
 <script>
     let tab = "<table>"
 
@@ -97,15 +118,14 @@
 
     function checkType(data, reg){
         return data.search(reg) !== -1;
-
     }
-    function validation(dishName, description, price,){
+
+    function validation(dishName, description, price){
         if(!checkType(dishName,/^[a-zA-Z ]+$/) || !checkType(description,/^[a-zA-Z ]+$/)){
             alert("Not valid type, enter text please for one or more of following entries: Dish Name, Description")
             return false
         }
-
-        if(!checkType(price, /^[0-9]+[.]?[0-9]+$/)){
+        if(!checkType(price, /^[0-9]+[.]?[0-9]*$/)){
             alert("Not valid type, enter a number please for following entry(s): price")
             return false
         }
@@ -132,183 +152,130 @@
         tab +=  "</tr>"
         console.log(data)
     }
+
     $(document).ready(function(){
         $("#addDish,#updDish,#delDish").hide()
         let api = "/api/dished"
         let chefApi = "/api/chefSpecialties"
         $.get(api, function(data){
             tableInit()
-            for(let i = 0; i<data.length; i++){
-                let line = data[i];
-                tableSeed(line)
-            }
+            for(let i = 0; i<data.length; i++){ tableSeed(data[i]) }
             tab+="</table>"
             $("#dishDiv").html(tab)
-
         })
-
         $.get(chefApi, function(data){
             let options = ""
-            for(let i = 0; i<data.length;i++){
+            for(let i = 0; i<data.length; i++){
                 options+=`<option value="${data[i]}">${data[i]}</option>`
-                console.log(options)
             }
             $("#chefOptionSpecial").html(options)
         })
     })
 
-
     $("#submit").click(function(){
         let method = $("#searchOption").val().trim()
         let requested = $("#requested").val().trim()
-        let apiUrl = `/api/dished/${method}/${requested}`
-
-
         $.ajax({
-            url: apiUrl,
+            url: `/api/dished/${method}/${requested}`,
             type: 'GET',
             dataType: "json",
             success: function(data){
                 tab="<table>"
                 tableInit()
-                for(let i = 0; i<data.length; i++){
-                    let line = data[i];
-                    tableSeed(line)
-                }
+                for(let i = 0; i<data.length; i++){ tableSeed(data[i]) }
                 tab+="</table>"
                 $("#dishDiv").html(tab)
             },
-            error: function(data){
-                alert(data.responseText)
-            }
+            error: function(data){ alert(data.responseText) }
         })
-
-
     })
 
-    $("#addBtn").click(function(){
-       $("#addDish").toggle()
-    })
-    $("#updBtn").click(function(){
-        $("#updDish").toggle()
-    })
-    $("#delBtn").click(function(){
-        $("#delDish").toggle()
-    })
+    function reloadTable() {
+        tab = "<table>"
+        tableInit()
+        $.get("/api/dished", function(data){
+            for(let i = 0; i < data.length; i++){ tableSeed(data[i]) }
+            tab += "</table>"
+            $("#dishDiv").html(tab)
+        })
+    }
+    $("#reloadBtn").click(function () { reloadTable() })
 
+
+    $("#addBtn").click(function(){ $("#addDish").toggle() })
+    $("#updBtn").click(function(){ $("#updDish").toggle() })
+    $("#delBtn").click(function(){ $("#delDish").toggle() })
 
     $("#addSubmit").click(function(event) {
         event.preventDefault()
-        let apiUrl = "/api/addDish"
         let dishName = $("#dishName").val().trim()
         let description = $("#description").val().trim()
         let category = $("#chefOptionSpecial").val().trim()
         let price = $("#price").val().trim()
-
-        if(checkEmpty(dishName, description, category, price) === false){
-            return;
-        }
-        if(!validation(dishName, description, price)){
-            return;
-        }
+        if(checkEmpty(dishName, description, category, price) === false) return;
+        if(!validation(dishName, description, price)) return;
         $.ajax({
-            url: apiUrl,
+            url: "/api/addDish",
             type: 'POST',
             contentType:'application/json',
             data: JSON.stringify({dishName: dishName, description: description, category: category, price: price}),
             success: function (data) {
                 tab="<table>"
                 tableInit()
-                for (let i = 0; i < data.length; i++) {
-                    let line = data[i]
-                    tableSeed(line)
-                }
+                for (let i = 0; i < data.length; i++) { tableSeed(data[i]) }
                 tab += "</table>"
                 $("#dishDiv").html(tab)
             },
-            error: function (data) {
-                alert(data.responseText)
-
-            }
-
+            error: function (data) { alert(data.responseText) }
         })
-
     })
+
     $("#updSubmit").click(function (event) {
         event.preventDefault()
         let dishId = $("#idUpd").val().trim()
         let dishName = $("#dishNameUpd").val().trim()
         let description = $("#descriptionUpd").val().trim()
         let available = $("#available").is(":checked")
-        console.log(available)
         let price = $("#priceUpd").val().trim()
-        let apiUrl = `/api/dished/update`
-        if(checkEmpty(dishId, dishName, description, available, price) === false){
-            return;
-        }
-        if(!validation(dishName, description, price)){
-            return
-        }
-
+        if(checkEmpty(dishId, dishName, description, price) === false) return;
+        if(!validation(dishName, description, price)) return
         $.ajax({
-            url: apiUrl,
+            url: `/api/dished/update`,
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({dishId: dishId, dishName: dishName, description: description, available: available, price: price}),
             success: function (data) {
                 tab="<table>"
                 tableInit()
-                for (let i = 0; i < data.length; i++) {
-                    console.log(data)
-                    let line = data[i]
-                    tableSeed(line)
-                }
+                for (let i = 0; i < data.length; i++) { tableSeed(data[i]) }
                 tab += "</table>"
                 $("#dishDiv").html(tab)
             },
-            error: function (data) {
-                alert(data.responseText)
-
-            }
-
+            error: function (data) { alert(data.responseText) }
         })
-
     })
 
     $("#delSubmit").click(function(event){
         event.preventDefault()
-        let apiUrl = "/api/delDish"
         let id = $("#dishIdDel").val().trim();
-        if(id === ""){
-            alert("Must enter ID to delete")
-            return
-        }
+        if(id === ""){ alert("Must enter ID to delete"); return }
         $.ajax({
-            url: apiUrl,
+            url: "/api/delDish",
             type: 'DELETE',
             data:{dishId: id},
             success: function(data){
                 alert(data)
                 tab="<table>"
-                newApi = "/api/dished"
                 tableInit()
-                $.get(newApi, function(data){
-                    for(let i = 0; i<data.length; i++){
-                        let line = data[i];
-                        tableSeed(line)
-                    }
+                $.get("/api/dished", function(data){
+                    for(let i = 0; i<data.length; i++){ tableSeed(data[i]) }
                     tab+="</table>"
                     $("#dishDiv").html(tab)
                 })
-
             },
-            error: function(data){
-                alert(data.responseText)
-
-            }
+            error: function(data){ alert(data.responseText) }
         })
-
     })
-
 </script>
+</body>
 </html>

@@ -48,6 +48,7 @@ public class WaiterController {
                                                    @RequestParam double salary) {
         HttpHeaders header = new HttpHeaders();
         header.add("Custom-Header", "Details");
+        System.out.print("Reached controller");
         return ResponseEntity.ok().body(waiterService.saveWaiter(new Waiter(firstName, lastName, salary)));
     }
 
