@@ -1,3 +1,4 @@
+<!--Student Name: Munzier Kashef | Student ID: 761008741-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,8 +116,8 @@
         $("#preference").val("");
         $("#loadBtn").click();
       },
-      error: function(xhr){
-        alert("Error adding customer: " + xhr.responseText);
+      error: function(error){
+        alert("Error adding customer: " + error.responseText);
       }
     });
 
@@ -162,8 +163,8 @@
         $("#editPreference").val("");
         $("#loadBtn").click();
       },
-      error: function(xhr){
-        alert("Error updating customer: " + xhr.responseText);
+      error: function(error){
+        alert("Error updating customer: " + error.responseText);
       }
     });
 
@@ -192,8 +193,8 @@
         $("#updateWaiterId").val("");
         $("#loadBtn").click();
       },
-      error: function(xhr){
-        alert("Error updating waiter: " + xhr.responseText);
+      error: function(error){
+        alert("Error updating waiter: " + error.responseText);
       }
     });
 
@@ -207,8 +208,8 @@
         alert("Customer deleted");
         $("#loadBtn").click();
       },
-      error: function(xhr){
-        alert("Error deleting customer: " + xhr.responseText);
+      error: function(error){
+        alert("Error deleting customer: " + error.responseText);
       }
     });
 
