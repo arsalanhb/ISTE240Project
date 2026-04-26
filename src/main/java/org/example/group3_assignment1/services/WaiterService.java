@@ -36,11 +36,9 @@ public class WaiterService {
         if (waiterToSave.getFirstName() == null || waiterToSave.getFirstName().isEmpty()) {
             throw new IllegalArgumentException("Waiter first name cannot be null or empty");
         }
-        System.out.println(waiterDao.save(waiterToSave).getFirstName());
         return List.of(waiterDao.save(waiterToSave));
     }
     public List<Waiter> updateWaiterById(int id, Waiter updatedWaiter) {
-        System.out.println("it reached this point");
         Waiter existingWaiter = waiterDao.findById(id).orElseThrow(() -> new RuntimeException("Waiter doesn't exist"));
         existingWaiter.setFirstName(updatedWaiter.getFirstName());
         existingWaiter.setLastName(updatedWaiter.getLastName());
