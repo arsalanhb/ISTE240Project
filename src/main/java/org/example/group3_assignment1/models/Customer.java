@@ -17,6 +17,7 @@ public class Customer {
     private String preference;
 
     @ManyToOne
+    @JoinColumn(name = "assigned_waiter_id", nullable = true)
     private Waiter assignedWaiter;
 
     public Customer(Waiter assignedWaiter, String firstName, String lastName, String preference) {

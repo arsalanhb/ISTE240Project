@@ -4,6 +4,7 @@ Members:
   - Adham Khalifa | 418006637
   - Munzier Kashef | 761008741
   - Muhammad Arsalan | 403000286
+  - Merge Manager: Muhammad Arsalan
 
 
 Description: A Levantine online restaurant website that offers authentic Eastern Mediterranean flavors delivered to your door.
