@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Waiter - Kebab Shop</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 40px auto; padding: 20px; background-color: #383131; color: #fdfdfd; border-radius: 10px; }
+        h1 { color: #d35400; text-align: center; }
+        label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; border-radius: 6px; border: none; box-sizing: border-box; }
+        button { margin-top: 20px; width: 100%; padding: 10px; background-color: #d35400; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #b94600; }
+        a { display: inline-block; margin-top: 15px; color: #d35400; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h1>Add Waiter</h1>
+<form method="post" action="/waiter/add">
+    <label>First Name</label>
+    <input type="text" name="firstName" placeholder="First name">
+    <label>Last Name</label>
+    <input type="text" name="lastName" placeholder="Last name">
+    <label>Salary</label>
+    <input type="number" name="salary" placeholder="Salary">
+    <button type="submit">Submit</button>
+</form>
+<a href="/">← Back to Home</a>
+</body>
+</html>

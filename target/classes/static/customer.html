@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customers - Kebab Shop</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="brand" href="/">Kebab Shop</a>
+  <a href="/dish.html">Dishes</a>
+  <a href="/chef.html">Chefs</a>
+  <a href="/waiter.html">Waiters</a>
+  <a href="/customer.html" class="active">Customers</a>
+</nav>
+
+<div class="page-wrapper">
+  <h1>Customers</h1>
+
+  <div class="toolbar">
+    <button id="reloadBtn">Reload</button>
+  </div>
+
+  <div id="result"></div>
+
+  <div class="toolbar" style="margin-top:20px">
+    <button id="addBtn">+ Add Customer</button>
+    <button id="updBtn">Update Customer</button>
+    <button id="updWaiterBtn">Update Waiter</button>
+  </div>
+
+  <form id="addCustomer">
+    <div>
+      <label>First Name</label>
+      <input type="text" id="firstName" placeholder="First Name">
+    </div>
+    <div>
+      <label>Last Name</label>
+      <input type="text" id="lastName" placeholder="Last Name">
+    </div>
+    <div>
+      <label>Preference</label>
+      <input type="text" id="preference" placeholder="Preference">
+    </div>
+    <button id="addSubmit" type="button">Submit</button>
+  </form>
+
+  <form id="updCustomer">
+    <div>
+      <label>Customer ID</label>
+      <input type="number" id="editCustomerId" placeholder="Customer ID">
+    </div>
+    <div>
+      <label>First Name</label>
+      <input type="text" id="editFirstName" placeholder="New First Name">
+    </div>
+    <div>
+      <label>Last Name</label>
+      <input type="text" id="editLastName" placeholder="New Last Name">
+    </div>
+    <div>
+      <label>Preference</label>
+      <input type="text" id="editPreference" placeholder="New Preference">
+    </div>
+    <button id="updSubmit" type="button">Submit</button>
+  </form>
+
+  <form id="updWaiterForm">
+    <div>
+      <label>Customer ID</label>
+      <input type="number" id="updateCustomerId" placeholder="Customer ID">
+    </div>
+    <div>
+      <label>New Waiter ID</label>
+      <input type="number" id="updateWaiterId" placeholder="Waiter ID">
+    </div>
+    <button id="updWaiterSubmit" type="button">Submit</button>
+  </form>
+
+  <a href="/" class="btn-back">← Back to Home</a>
+</div>
+
+<script>
+  function loadCustomers() {
+    $.get("/api/customers", function(data){
+      var table = "<table>";
+      table += "<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Preference</th><th>Assigned Waiter</th><th>Delete</th></tr>";
+      for (var i = 0; i < data.length; i++) {
+        let c = data[i];
+        let waiterName = "None";
+        if (c.assignedWaiter) {
+          waiterName = c.assignedWaiter.firstName + " " + c.assignedWaiter.lastName;
+        }
+        table += "<tr>";
+        table += "<td>" + c.customerId + "</td>";
+        table += "<td>" + c.firstName + "</td>";
+        table += "<td>" + c.lastName + "</td>";
+        table += "<td>" + c.preference + "</td>";
+        table += "<td>" + waiterName + "</td>";
+        table += "<td><button onclick='deleteCustomer(" + c.customerId + ")' style='background:#e74c3c;color:white;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:bold;'>Delete</button></td>";
+        table += "</tr>";
+      }
+      table += "</table>";
+      $("#result").html(table);
+    });
+  }
+
+  $(document).ready(function(){
+    $("#addCustomer,#updCustomer,#updWaiterForm").hide()
+    loadCustomers()
+  })
+
+
+  $("#reloadBtn").click(function(){ loadCustomers() })
+
+  $("#addBtn").click(function(){ $("#addCustomer").toggle() })
+  $("#updBtn").click(function(){ $("#updCustomer").toggle() })
+  $("#updWaiterBtn").click(function(){ $("#updWaiterForm").toggle() })
+
+  $("#addSubmit").click(function(){
+    let firstName  = $("#firstName").val().trim();
+    let lastName   = $("#lastName").val().trim();
+    let preference = $("#preference").val().trim();
+    if (firstName === "" || lastName === "" || preference === "") {
+      alert("All fields are required"); return;
+    }
+    if (!isNaN(firstName) || !isNaN(lastName) || !isNaN(preference)) {
+      alert("Fields cannot be only numbers"); return;
+    }
+    $.ajax({
+      url: "/api/customers",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ firstName: firstName, lastName: lastName, preference: preference }),
+      success: function(){
+        alert("Customer added");
+        $("#firstName,#lastName,#preference").val("");
+        loadCustomers();
+      },
+      error: function(xhr){ alert("Error adding customer: " + xhr.responseText); }
+    });
+  })
+
+  $("#updSubmit").click(function(){
+    let customerId = $("#editCustomerId").val();
+    let firstName  = $("#editFirstName").val().trim();
+    let lastName   = $("#editLastName").val().trim();
+    let preference = $("#editPreference").val().trim();
+    if (customerId === "" || firstName === "" || lastName === "" || preference === "") {
+      alert("All fields are required"); return;
+    }
+    if (isNaN(customerId)) { alert("Customer ID must be a number"); return; }
+    if (!isNaN(firstName) || !isNaN(lastName) || !isNaN(preference)) {
+      alert("Name fields cannot be only numbers"); return;
+    }
+    $.ajax({
+      url: "/api/customers/" + customerId,
+      type: "PUT",
+      contentType: "application/json",
+      data: JSON.stringify({ firstName: firstName, lastName: lastName, preference: preference }),
+      success: function(){
+        alert("Customer updated");
+        $("#editCustomerId,#editFirstName,#editLastName,#editPreference").val("");
+        loadCustomers();
+      },
+      error: function(xhr){ alert("Error updating customer: " + xhr.responseText); }
+    });
+  })
+
+  $("#updWaiterSubmit").click(function(){
+    let customerId = $("#updateCustomerId").val();
+    let waiterId   = $("#updateWaiterId").val();
+    if (customerId === "" || waiterId === "") {
+      alert("Both Customer ID and Waiter ID are required"); return;
+    }
+    if (isNaN(customerId) || isNaN(waiterId)) {
+      alert("IDs must be numbers"); return;
+    }
+    $.ajax({
+      url: "/api/customers/" + customerId + "/waiter/" + waiterId,
+      type: "PUT",
+      success: function(){
+        alert("Waiter updated");
+        $("#updateCustomerId,#updateWaiterId").val("");
+        loadCustomers();
+      },
+      error: function(xhr){ alert("Error updating waiter: " + xhr.responseText); }
+    });
+  })
+
+  function deleteCustomer(id) {
+    $.ajax({
+      url: "/api/customers/" + id,
+      type: "DELETE",
+      success: function(){ alert("Customer deleted"); loadCustomers(); },
+      error: function(xhr){ alert("Error deleting customer: " + xhr.responseText); }
+    });
+  }
+</script>
+</body>
+</html>

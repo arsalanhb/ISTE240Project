@@ -1,0 +1,357 @@
+<!--Adham Khalifa - 418006637-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chefs - Kebab Shop</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="brand" href="/">Kebab Shop</a>
+    <a href="/dish.html">Dishes</a>
+    <a href="/chef.html" class="active">Chefs</a>
+    <a href="/waiter.html">Waiters</a>
+    <a href="/customer.html">Customers</a>
+</nav>
+
+<div class="page-wrapper">
+    <h1>Chefs</h1>
+
+
+    <div class="toolbar">
+        <label for="searchOption">Search By:</label>
+        <select name="searchOption" id="searchOption">
+            <option value="chefId">Chef Id</option>
+            <option value="fullName">Chef Full Name</option>
+            <option value="specialty">Specialty</option>
+        </select>
+        <label for="requested">Value:</label>
+        <input id="requested" name="requested" type="search" placeholder="Enter search value">
+        <button id="submit">Search</button>
+    </div>
+
+
+    <div class="toolbar">
+        <button id="addBtn">+ Add Chef</button>
+        <button id="updBtn">Update Chef</button>
+        <button id="delBtn">Delete Chef</button>
+        <button id="reloadBtn">Reload</button>
+    </div>
+
+
+    <form id="addChef">
+        <div>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="First Name">
+        </div>
+        <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" placeholder="Email">
+        </div>
+        <div>
+            <label for="specialty">Specialty</label>
+            <input type="text" id="specialty" name="specialty" placeholder="Specialty">
+        </div>
+        <div>
+            <label for="salary">Salary</label>
+            <input type="number" step="any" id="salary" name="salary" placeholder="Salary">
+        </div>
+        <div>
+            <label for="yrsOfExperience">Years of Experience</label>
+            <input type="number" step="any" id="yrsOfExperience" name="yrsOfExperience" placeholder="Experience">
+        </div>
+        <button id="dishChefBtn" type="button">+ Add Dish</button>
+        <div id="dishChef"></div>
+        <button id="addSubmit" type="button">Submit</button>
+    </form>
+
+
+    <form id="updChef">
+        <div>
+            <label for="idUpd">Chef ID</label>
+            <input type="text" id="idUpd" name="idUpd" placeholder="ID">
+        </div>
+        <div>
+            <label for="firstNameUpd">First Name</label>
+            <input type="text" id="firstNameUpd" name="firstName" placeholder="First Name">
+        </div>
+        <div>
+            <label for="lastNameUpd">Last Name</label>
+            <input type="text" id="lastNameUpd" name="lastName" placeholder="Last Name">
+        </div>
+        <div>
+            <label for="emailUpd">Email</label>
+            <input type="text" id="emailUpd" name="email" placeholder="Email">
+        </div>
+        <div>
+            <label for="specialtyUpd">Specialty</label>
+            <input type="text" id="specialtyUpd" name="specialty" placeholder="Specialty">
+        </div>
+        <div>
+            <label for="salaryUpd">Salary</label>
+            <input type="number" step="any" id="salaryUpd" name="salary" placeholder="Salary">
+        </div>
+        <div>
+            <label for="yrsOfExperienceUpd">Years of Experience</label>
+            <input type="number" step="any" id="yrsOfExperienceUpd" name="yrsOfExperience" placeholder="Experience">
+        </div>
+        <button id="updSubmit" type="button">Submit</button>
+    </form>
+
+
+    <form id="delChef">
+        <div>
+            <label for="chefIdDel">Chef ID</label>
+            <input type="text" id="chefIdDel" name="chefIdDel" placeholder="ID">
+        </div>
+        <button id="delSubmit" type="button">Delete</button>
+    </form>
+
+
+    <div id="chefDiv"></div>
+
+    <a href="/" class="btn-back">← Back to Home</a>
+</div>
+
+<script>
+    let objects = []
+
+    function checkEmpty(){
+        for(let i=0; i<arguments.length; i++){
+            if(arguments[i]===""){
+                alert("One or more fields are empty")
+                return false;
+            }
+        }
+        return true
+    }
+
+    function checkType(data, reg){
+        return data.search(reg) !== -1;
+    }
+
+    function validation(firstName, lastName, specialty, email, salary, yrsOfExperience){
+        if(!checkType(firstName,/^[a-zA-Z ]+$/) || !checkType(lastName,/^[a-zA-Z ]+$/) || !checkType(specialty,/^[a-zA-Z ]+$/)){
+            alert("Not valid type, enter text please for one or more of the following entries: First Name, Last Name, Specialty")
+            return false
+        }
+        if(!checkType(email, /^\w+@gmail.com/)){
+            alert("Not valid email format, please use gmail account")
+            return false
+        }
+        if(!checkType(salary, /^[0-9]+$/) || !checkType(yrsOfExperience, /^[0-6][0-9]?$/)){
+            alert("Not valid type, enter a number please for one or more of the following entries: Salary, Years of Experience(0 - 69)")
+            return false
+        }
+        return true
+    }
+
+    function tableInit(){
+        tab += "<tr>"
+        tab +=  "<th>ID</th>"
+        tab +=  "<th>First Name</th>"
+        tab +=  "<th>Last Name</th>"
+        tab +=  "<th>Email</th>"
+        tab +=  "<th>Salary</th>"
+        tab +=  "<th>Specialty</th>"
+        tab +=  "<th>YrsOfExperience</th>"
+        tab +=  "<th>Dishes</th>"
+        tab +=  "</tr>"
+    }
+
+    function tableSeed(data){
+        tab += "<tr>"
+        tab +=  `<td>${data.chefId}</td>`
+        tab +=  `<td>${data.firstName}</td>`
+        tab +=  `<td>${data.lastName}</td>`
+        tab +=  `<td>${data.email}</td>`
+        tab +=  `<td>${data.salary}</td>`
+        tab +=  `<td>${data.specialty}</td>`
+        tab +=  `<td>${data.yrsOfExperience}</td>`
+        let dishHtml = "<ul class='dish-list'>";
+        for(let i = 0; i < data.dishList.length; i++){
+            let d = data.dishList[i];
+            dishHtml += `<li>${d.dishName}: ${d.description}</li>`;
+        }
+        dishHtml += "</ul>";
+        tab += `<td>${dishHtml}</td>`
+        tab += "</tr>"
+        console.log(data)
+    }
+
+    let tab = "<table>"
+    $(document).ready(function(){
+        $("#addChef,#updChef,#delChef").hide()
+        tableInit()
+        let api = "/api/chefed"
+        $.get(api, function(data){
+            for(let i = 0; i<data.length; i++){
+                tableSeed(data[i])
+            }
+            tab+="</table>"
+            $("#chefDiv").html(tab)
+        })
+    })
+
+    $("#submit").click(function(){
+        let method = $("#searchOption").val().trim()
+        let requested = $("#requested").val().trim()
+        if((method === "specialty") && requested.search(/^[a-zA-Z ]+$/) === -1){
+            alert("Must enter text")
+            return;
+        }
+        if(method === "fullName" && requested.search(/^[a-zA-Z]+[ ][a-zA-Z]+$/) === -1){
+            alert("First Name and Last Name must be separated by space.")
+            return;
+        }
+        if((method === "chefId") && requested.search(/^[0-9]+$/) === -1){
+            alert("Must enter a number")
+            return
+        }
+        $.ajax({
+            url: `/api/chefed/${method}/${requested}`,
+            type: 'GET',
+            contentType: 'application/json',
+            success: function(data){
+                tab="<table>"
+                tableInit()
+                for(let i = 0; i<data.length; i++){
+                    tableSeed(data[i])
+                }
+                tab+="</table>"
+                $("#chefDiv").html(tab)
+            },
+            error: function(data){ alert(data.responseText) }
+        })
+    })
+
+
+    function reloadTable() {
+        tab = "<table>"
+        tableInit()
+        $.get("/api/chefed", function(data){
+            for(let i = 0; i < data.length; i++){ tableSeed(data[i]) }
+            tab += "</table>"
+            $("#chefDiv").html(tab)
+        })
+    }
+    $("#reloadBtn").click(function () { reloadTable() })
+
+
+    $("#addBtn").click(function(){ $("#addChef").toggle() })
+    $("#updBtn").click(function(){ $("#updChef").toggle() })
+    $("#delBtn").click(function(){ $("#delChef").toggle() })
+
+    $("#addSubmit").click(function(event) {
+        event.preventDefault()
+        let firstName = $("#firstName").val().trim()
+        let lastName = $("#lastName").val().trim()
+        let email = $("#email").val().trim()
+        let salary = $("#salary").val().trim()
+        let specialty = $("#specialty").val().trim()
+        let yrsOfExperience = $("#yrsOfExperience").val().trim()
+        if(checkEmpty(firstName, lastName, email, salary, specialty, yrsOfExperience) === false) return
+        if(!validation(firstName, lastName, specialty, email, salary, yrsOfExperience)) return
+        $.ajax({
+            url: "/api/addChef",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({firstName: firstName, lastName: lastName, email:email, salary: salary, specialty: specialty, yrsOfExperience: yrsOfExperience, dishList: objects}),
+            success: function (data) {
+                tab="<table>"
+                tableInit()
+                for (let i = 0; i < data.length; i++) { tableSeed(data[i]) }
+                tab += "</table>"
+                $("#chefDiv").html(tab)
+            },
+            error: function (data) { alert(data.responseText) }
+        })
+        objects = []
+    })
+
+    $("#dishChefBtn").click(function(){
+        $("#dishChef").html(`
+            <div>
+                <label>Dish Name: </label>
+                <input type="text" id="dishName" name="dishName" placeholder="Dish Name">
+            </div>
+            <div>
+                <label>Description: </label>
+                <input type="text" id="description" name="description" placeholder="Description">
+            </div>
+            <div>
+                <label>Price: </label>
+                <input type="number" id="price" name="price" placeholder="Price">
+            </div>
+            <button id="dishChefSubmit" type="button">Add Dish</button>
+        `)
+    })
+
+    $(document).on('click',"#dishChefSubmit", function(){
+        let dishName = $("#dishName").val().trim()
+        let description = $("#description").val().trim()
+        let price = $("#price").val().trim()
+        if(!checkEmpty(dishName, description, price)) return;
+        objects.push({dishName: dishName, description: description, price: price})
+        console.log(objects)
+        $("#dishName,#description,#price").val("")
+    })
+
+    $("#updSubmit").click(function (event) {
+        event.preventDefault()
+        let id = $("#idUpd").val().trim()
+        let firstName = $("#firstNameUpd").val().trim()
+        let lastName = $("#lastNameUpd").val().trim()
+        let specialty = $("#specialtyUpd").val().trim()
+        let email = $("#emailUpd").val().trim()
+        let salary = $("#salaryUpd").val().trim()
+        let yrsOfExperience = $("#yrsOfExperienceUpd").val().trim()
+        if(checkEmpty(firstName, lastName, specialty, id, email, salary, yrsOfExperience) === false) return;
+        validation(firstName, lastName, specialty, email, salary, yrsOfExperience)
+        $.ajax({
+            url: "/api/updChef",
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({chefId: id, firstName:firstName, lastName:lastName, specialty:specialty, email:email, salary: salary, yrsOfExperience: yrsOfExperience}),
+            success: function (data) {
+                tab="<table>"
+                tableInit()
+                for (let i = 0; i < data.length; i++) { tableSeed(data[i]) }
+                tab += "</table>"
+                $("#chefDiv").html(tab)
+            },
+            error: function (data) { alert(data.responseText) }
+        })
+    })
+
+    $("#delSubmit").click(function(e){
+        e.preventDefault()
+        let id = $("#chefIdDel").val().trim();
+        if(!checkEmpty(id)) return;
+        $.ajax({
+            url: "/api/delChef",
+            type: 'DELETE',
+            data:{chefId: id},
+            success: function(data){
+                alert(data)
+                tab="<table>"
+                tableInit()
+                $.get("/api/chefed", function(data){
+                    for(let i = 0; i<data.length; i++){ tableSeed(data[i]) }
+                    tab+="</table>"
+                    $("#chefDiv").html(tab)
+                })
+            },
+            error: function(data){ alert(data.responseText) }
+        })
+    })
+</script>
+</body>
+</html>
