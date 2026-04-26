@@ -21,7 +21,7 @@ public class WaiterService {
         if (!waiterDao.existsById(id)) {
             throw new RuntimeException("Waiter with that ID does not exist");
         }
-        return List.of(waiterDao.findById((int) id));
+        return List.of(waiterDao.findById(id).orElseThrow(() -> new RuntimeException("Waiter not found")));
     }
     public List<Waiter> getWaiterByFirstName(String firstName) {
         if (!waiterDao.existsByFirstName(firstName)) {
