@@ -47,6 +47,17 @@ public class CustomerController {
         customerService.updateCustomerWaiter(customerId, waiterId);
     }
 
+    @PutMapping("/{id}")
+    public Customer updateCustomer(@PathVariable int id, @RequestBody Customer updatedCustomer) {
+        Customer existingCustomer = customerService.getCustomerById(id);
+
+        existingCustomer.setFirstName(updatedCustomer.getFirstName());
+        existingCustomer.setLastName(updatedCustomer.getLastName());
+        existingCustomer.setPreference(updatedCustomer.getPreference());
+
+        return customerService.addCustomer(existingCustomer);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteCustomer(@PathVariable int id) {
         customerService.deleteCustomer(id);
