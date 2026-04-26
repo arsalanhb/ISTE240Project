@@ -1,6 +1,5 @@
 package org.example.group3_assignment1.controllers;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,23 +11,23 @@ public class RestaurantController {
         return "redirect:/index.html";
     }
 
-    @GetMapping("/dish") String Dish(){
-        return "dish.html";
+    @GetMapping("/dish")
+    public String Dish() {
+        return "redirect:/dish.html";
     }
 
-    @GetMapping("/chef") String Chef(){
-        return "chef.html";
+    @GetMapping("/chef")
+    public String Chef() {
+        return "redirect:/chef.html";
     }
 
-    @GetMapping("/waiter") String Waiter(){
-        return "waiter.html";
+    @GetMapping("/waiter")
+    public String Waiter() {
+        return "redirect:/waiter.html";
     }
 
-    @GetMapping("/customer") String Customer(){
-        return "customer.html";
+    @GetMapping("/customer")
+    public String Customer() {
+        return "redirect:/customer.html";
     }
-
-    }
-
-
-
+}
