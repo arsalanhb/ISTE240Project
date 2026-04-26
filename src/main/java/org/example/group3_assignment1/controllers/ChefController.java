@@ -4,6 +4,7 @@ package org.example.group3_assignment1.controllers;
 import org.example.group3_assignment1.models.Chef;
 import org.example.group3_assignment1.services.ChefService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,12 +58,12 @@ public class ChefController {
         return ResponseEntity.ok().body(List.of(chefService.saveChef(chefToSave)));
     }
 
-    @PostMapping("/api/updChef")
-    public ResponseEntity<List<Optional<Chef>>> updChef(@RequestParam Long chefId, @RequestParam String email, @RequestParam Double salary, @RequestParam Double yrsOfExperience){
+    @PutMapping("/api/updChef")
+    public ResponseEntity<List<Optional<Chef>>> updChef(@RequestBody Chef chefToSave){
         System.out.print("Amazing");
         HttpHeaders header = new HttpHeaders();
         header.add("Custom-Header", "Update-Chef");
-        return ResponseEntity.ok().body(List.of(chefService.updateChefById(chefId,email,salary,yrsOfExperience)));
+        return ResponseEntity.ok().body(List.of(chefService.updateChefById(chefToSave.getChefId(),chefToSave)));
     }
 
     @DeleteMapping("/api/delChef")
@@ -73,7 +74,9 @@ public class ChefController {
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> incorrectInfo(Exception msg){
-        System.out.println(msg.getMessage());
+        if(msg instanceof DataAccessException){
+            return new ResponseEntity<>("Database Error, duplicate record most likely error", HttpStatus.NOT_ACCEPTABLE);
+        }
         return new ResponseEntity<>(msg.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 

@@ -57,24 +57,13 @@ public class DishController {
         return ResponseEntity.ok().headers(header).body(List.of(dishService.saveDish(newDish)));
     }
 
-    @PostMapping("/api/dished/description/{chefId}/{requested}")
-    public ResponseEntity<List<Optional<Dish>>> updDescription(@PathVariable Long chefId, @PathVariable String requested){
+    @PutMapping("/api/dished/update")
+    public ResponseEntity<List<Optional<Dish>>> updDish(@RequestBody Dish updatedDish){
         HttpHeaders header = new HttpHeaders();
         header.add("Custom-Header", "Update-Description");
-        return ResponseEntity.ok().headers(header).body(List.of(dishService.updateDescriptionById(chefId,requested)));
+        return ResponseEntity.ok().headers(header).body(List.of(dishService.updateDishById(updatedDish.getDishId(),updatedDish)));
     }
-    @PostMapping("/api/dished/price/{chefId}/{requested}")
-    public ResponseEntity<List<Optional<Dish>>> updPrice(@PathVariable Long chefId, @PathVariable Double requested){
-        HttpHeaders header = new HttpHeaders();
-        header.add("Custom-Header", "Update-Price");
-        return ResponseEntity.ok().headers(header).body(List.of(dishService.updatePriceById(chefId,requested)));
-    }
-    @PostMapping("/api/dished/available/{chefId}/{requested}")
-    public ResponseEntity<List<Optional<Dish>>> updAvailability(@PathVariable Long chefId, @PathVariable boolean requested){
-        HttpHeaders header = new HttpHeaders();
-        header.add("Custom-Header", "Update-Availability");
-        return ResponseEntity.ok().headers(header).body(List.of(dishService.updateAvailableById(chefId,requested)));
-    }
+
     @DeleteMapping("/api/delDish")
     public ResponseEntity<String> delDish(@RequestParam Long dishId){
         HttpHeaders header = new HttpHeaders();
