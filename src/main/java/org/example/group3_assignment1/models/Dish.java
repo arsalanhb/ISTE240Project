@@ -1,9 +1,10 @@
-package org.example.group3_assignment1.models;
+//Adham Khalifa -- 418006637
 
-import jakarta.annotation.PostConstruct;
+package org.example.group3_assignment1.models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Entity
 @Table(name="dishes")
@@ -12,10 +13,10 @@ public class Dish {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long dishId;
 
-    @Column(length=30, nullable=false, unique = true)
+    @Column(length=30, nullable=false)
     private String dishName;
 
-    @Column(length=200, nullable = false)
+    @Column(length=200, nullable = false , unique = true)
     private String description;
 
     @Column(nullable = false)
@@ -27,6 +28,7 @@ public class Dish {
     @Column
     private boolean available = true;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="chef_id", nullable = false)
     private Chef chef;
@@ -87,5 +89,24 @@ public class Dish {
 
     public void setDishId(Long dishId) {
         this.dishId = dishId;
+    }
+
+    public Chef getChef() {
+        return chef;
+    }
+
+    public void setChef(Chef chef) {
+        this.chef = chef;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Dish dish)) return false;
+        return Objects.equals(description, dish.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(description);
     }
 }
