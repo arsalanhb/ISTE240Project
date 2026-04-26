@@ -9,6 +9,42 @@
             display: flex;
             gap: 10px;
         }
+         .dish-list {
+             margin: 0;
+             padding-left: 18px;
+             list-style-type: disc;
+         }
+
+        .dish-list li {
+            font-size: 13px;
+            margin-bottom: 3px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e6f7ff;
+        }
     </style>
 </head>
 <body>
@@ -59,20 +95,32 @@
     <button id="updBtn">Update</button>
     <form id="updChef">
         <div>
-            <label for="idUpd">Id: </label>
+            <label for="idUpd">First Name: </label>
             <input type="text" id="idUpd" name="idUpd" placeholder="Id">
         </div>
         <div>
+            <label for="firstNameUpd">First Name: </label>
+            <input type="text" id="firstNameUpd" name="firstName" placeholder="First Name">
+        </div>
+        <div>
+            <label for="lastNameUpd">Last Name: </label>
+            <input type="text" id="lastNameUpd" name="lastName" placeholder="Last Name">
+        </div>
+        <div>
             <label for="emailUpd">Email: </label>
-            <input type="text" id="emailUpd" name="emailUpd" placeholder="Email">
+            <input type="text" id="emailUpd" name="email" placeholder="Email">
+        </div>
+        <div>
+            <label for="specialtyUpd">Specialty: </label>
+            <input type="text" id="specialtyUpd" name="specialty" placeholder="Specialty">
         </div>
         <div>
             <label for="salaryUpd">Salary: </label>
-            <input type="number" step="any" id="salaryUpd" name="salaryUpd" placeholder="Salary">
+            <input type="number" step="any" id="salaryUpd" name="salary" placeholder="Salary">
         </div>
         <div>
-            <label for="yrsUpd">Years of Experience: </label>
-            <input type="number" step="any" id="yrsUpd" name="yrsUpd" placeholder="Experience">
+            <label for="yrsOfExperienceUpd">Years of Experience: </label>
+            <input type="number" step="any" id="yrsOfExperienceUpd" name="yrsOfExperience" placeholder="Experience">
         </div>
         <button id="updSubmit" type="button">Submit</button>
     </form>
@@ -96,6 +144,29 @@
                 return false;
             }
         }
+        return true
+    }
+
+    function checkType(data, reg){
+        return data.search(reg) !== -1;
+
+    }
+
+    function validation(firstName, lastName, specialty, email, salary, yrsOfExperience){
+        if(!checkType(firstName,/^[a-zA-Z ]+$/) || !checkType(lastName,/^[a-zA-Z ]+$/) || !checkType(specialty,/^[a-zA-Z ]+$/)){
+            alert("Not valid type, enter text please for one or more of the following entries: First Name, Last Name, Specialty")
+            return false
+        }
+
+        if(!checkType(email, /^\w+@gmail.com/)){
+            alert("Not valid email format, please use gmail account")
+            return false
+        }
+        if(!checkType(salary, /^[0-9]+$/) || !checkType(yrsOfExperience, /^[0-6][0-9]?$/)){
+            alert("Not valid type, enter a number please for one or more of the following entries: Salary, Years of Experience")
+                return false
+        }
+        return true
     }
 
     function tableInit(){
@@ -107,6 +178,7 @@
         tab +=  "<th>Salary</th>"
         tab +=  "<th>Specialty</th>"
         tab +=  "<th>YrsOfExperience</th>"
+        tab +=  "<th>Dishes</th>"
         tab +=  "</tr>"
     }
 
@@ -119,10 +191,16 @@
         tab +=  `<td>${data.salary}</td>`
         tab +=  `<td>${data.specialty}</td>`
         tab +=  `<td>${data.yrsOfExperience}</td>`
-        for(let i = 0; i<data.dishList.length; i++){
-            let line = data.dishList[i];
-            tab +=  `<td>${line.dishName}: ${line.description}</td>`
+        let dishHtml = "<ul class='dish-list'>";
+
+        for(let i = 0; i < data.dishList.length; i++){
+            let d = data.dishList[i];
+            dishHtml += `<li>${d.dishName}: ${d.description}</li>`;
         }
+        dishHtml += "</ul>";
+
+        tab += `<td>${dishHtml}</td>`
+        tab += "</tr>"
         tab += "</tr>"
         console.log(data)
     }
@@ -131,6 +209,7 @@
     let tab = "<table>"
     $(document).ready(function(){
         $("#addChef,#updChef,#delChef").hide()
+        tableInit()
         let api = "/api/chefed"
         $.get(api, function(data){
             for(let i = 0; i<data.length; i++){
@@ -147,11 +226,15 @@
         let method = $("#searchOption").val()
         let requested = $("#requested").val()
 
-        if((method === "specialty" || method === "fullName") && requested.search("^[a-zA-Z ]+$")){
+        if((method === "specialty") && requested.search(/^[a-zA-Z ]+$/) === -1){
             alert("Must enter text")
             return;
         }
-        if((method === "chefId") && requested.search("^[0-9]+$")){
+        if(method === "fullName" && requested.search(/^[a-zA-Z]+[ ][a-zA-Z]+$/) === -1){
+            alert("First Name and Last Name must be separated by space.")
+            return;
+        }
+        if((method === "chefId") && requested.search(/^[0-9]+$/) === -1){
             alert("Must enter a number")
             return
         }
@@ -205,6 +288,10 @@
             return
         }
 
+        if(!validation(firstName, lastName, specialty, email, salary, yrsOfExperience)){
+            return
+        }
+
         $.ajax({
             url: apiUrl,
             type: 'POST',
@@ -226,12 +313,12 @@
             }
 
         })
-
+        objects = []
     })
 
     $("#dishChefBtn").click(function(){
         $("#dishChef").html(
-        `<div>
+            `<div>
             <label>Dish Name: </label>
         <input type="text" id="dishName" name="dishName" placeholder="dishName">
         </div>
@@ -256,20 +343,26 @@
         objects.push({dishName: dishName, description: description,price: price})
         console.log(objects)
     }))
+
     $("#updSubmit").click(function (event) {
         event.preventDefault()
         const apiUrl = "/api/updChef"
         let id = $("#idUpd").val()
+        let firstName = $("#firstNameUpd").val()
+        let lastName = $("#lastNameUpd").val()
+        let specialty = $("#specialtyUpd").val()
         let email = $("#emailUpd").val()
         let salary = $("#salaryUpd").val()
-        let yrsOfExperience = $("#yrsUpd").val()
-        if(checkEmpty(id, email, salary, yrsOfExperience) === false){
+        let yrsOfExperience = $("#yrsOfExperienceUpd").val()
+        if(checkEmpty(firstName, lastName, specialty, id, email, salary, yrsOfExperience) === false){
             return;
         }
+        validation(firstName, lastName, specialty, email, salary, yrsOfExperience)
         $.ajax({
             url: apiUrl,
-            type: 'POST',
-            data: {chefId: id, email:email, salary: salary, yrsOfExperience: yrsOfExperience},
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({chefId: id, firstName:firstName, lastName:lastName, specialty:specialty,email:email, salary: salary, yrsOfExperience: yrsOfExperience}),
             success: function (data) {
                 tab="<table>"
                 tableInit()
@@ -296,8 +389,18 @@
             data:{chefId: id},
             success: function(data){
                 alert(data)
+                tab="<table>"
+                newApi = "/api/chefed"
+                tableInit()
+                $.get(newApi, function(data){
+                    for(let i = 0; i<data.length; i++){
+                        let line = data[i];
+                        tableSeed(line)
+                    }
+                    tab+="</table>"
+                    $("#chefDiv").html(tab)
+            })},
 
-            },
             error: function(data){
                 alert(data.responseText)
             }

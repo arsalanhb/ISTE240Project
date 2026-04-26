@@ -53,15 +53,21 @@
             <label for="idUpd">Dish Id: </label>
             <input type="number" id="idUpd" name="idUpd" placeholder="ID">
         </div>
-        <div id="singleResultUpd">
-            <label for="updOption">Search By:</label>
-            <select name="updOption" id="updOption">
-                <option value="description">Description</option>
-                <option value="price">Price</option>
-                <option value="available">Availability</option>
-            </select>
-            <label for="requestedUpd"></label>
-            <input id="requestedUpd" name="requested" type="search">
+        <div>
+            <label for="dishNameUpd">Dish Name: </label>
+            <input type="text" id="dishNameUpd" name="dishNameUpd" placeholder="dishName">
+        </div>
+        <div>
+            <label for="available">Available: </label>
+            <input type="checkbox" id="available" name="available" placeholder="available">
+        </div>
+        <div>
+            <label for="descriptionUpd">Description: </label>
+            <input type="text" id="descriptionUpd" name="descriptionUpd" placeholder="description">
+        </div>
+        <div>
+            <label for="priceUpd">Price: </label>
+            <input type="number" id="priceUpd" name="priceUpd" placeholder="price">
         </div>
         <button id="updSubmit" type="button">Submit</button>
     </form>
@@ -78,11 +84,31 @@
 <script>
     let tab = "<table>"
 
-    function checkEmpty(data){
-        return data === ""
+    function checkEmpty(){
+        for(let i=0; i<arguments.length; i++){
+            if(arguments[i]===""){
+                alert("One or more fields are empty")
+                return false;
+            }
+        }
+        return true
     }
-    function checkNull(data){
-        return data === null
+
+    function checkType(data, reg){
+        return data.search(reg) !== -1;
+
+    }
+    function validation(dishName, description, price,){
+        if(!checkType(dishName,/^[a-zA-Z ]+$/) || !checkType(description,/^[a-zA-Z ]+$/)){
+            alert("Not valid type, enter text please for one or more of following entries: Dish Name, Description")
+            return false
+        }
+
+        if(!checkType(price, /^[0-9]+[.]?[0-9]+$/)){
+            alert("Not valid type, enter a number please for following entry(s): price")
+            return false
+        }
+        return true
     }
 
     function tableInit(){
@@ -92,7 +118,6 @@
         tab +=  "<th>Description</th>"
         tab +=  "<th>Price</th>"
         tab +=  "<th>Category</th>"
-        tab +=  "<th>Cooked By</th>"
         tab +=  "</tr>"
     }
 
@@ -111,7 +136,7 @@
         let api = "/api/dished"
         let chefApi = "/api/chefSpecialties"
         $.get(api, function(data){
-            tableInit(tab)
+            tableInit()
             for(let i = 0; i<data.length; i++){
                 let line = data[i];
                 tableSeed(line)
@@ -130,30 +155,21 @@
             $("#chefOptionSpecial").html(options)
         })
     })
-    document.addEventListener('click', function() {
-        tab="<table>"
-        tableInit()
-    }, true);
+
 
     $("#submit").click(function(){
         let method = $("#searchOption").val()
         let requested = $("#requested").val()
         let apiUrl = `/api/dished/${method}/${requested}`
 
-        if((method === "dishName" || method === "category") && requested.search("^[a-zA-Z]+$")){
-            alert("Must enter text")
-            return;
-        }
-        if((method === "dishId" || method === "price") && requested.search("^[0-9]+$")){
-            alert("Must enter a number")
-            return
-        }
 
         $.ajax({
             url: apiUrl,
             type: 'GET',
             dataType: "json",
             success: function(data){
+                tab="<table>"
+                tableInit()
                 for(let i = 0; i<data.length; i++){
                     let line = data[i];
                     tableSeed(line)
@@ -188,8 +204,10 @@
         let category = $("#chefOptionSpecial").val()
         let price = $("#price").val()
 
-        if(checkEmpty(dishName) || checkEmpty(description) || checkEmpty(category) || checkEmpty(price)){
-            alert("One or more of the fields is empty")
+        if(checkEmpty(dishName, description, category, price) === false){
+            return;
+        }
+        if(!validation(dishName, description, price)){
             return;
         }
         $.ajax({
@@ -198,6 +216,8 @@
             contentType:'application/json',
             data: JSON.stringify({dishName: dishName, description: description, category: category, price: price}),
             success: function (data) {
+                tab="<table>"
+                tableInit()
                 for (let i = 0; i < data.length; i++) {
                     let line = data[i]
                     tableSeed(line)
@@ -215,20 +235,28 @@
     })
     $("#updSubmit").click(function (event) {
         event.preventDefault()
-        let chefId = $("#idUpd").val()
-        let method = $("#updOption").val()
-        let requested = $("#requestedUpd").val()
-        let apiUrl = `/api/dished/${method}/${chefId}/${requested}`
-        if(checkEmpty(chefId) || checkEmpty(requested)){
-            alert("One or more of the fields is empty")
+        let dishId = $("#idUpd").val()
+        let dishName = $("#dishNameUpd").val()
+        let description = $("#descriptionUpd").val()
+        let available = $("#available").is(":checked")
+        console.log(available)
+        let price = $("#priceUpd").val()
+        let apiUrl = `/api/dished/update`
+        if(checkEmpty(dishId, dishName, description, available, price) === false){
             return;
+        }
+        if(!validation(dishName, description, price)){
+            return
         }
 
         $.ajax({
             url: apiUrl,
-            type: 'POST',
-            data: {requested},
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({dishId: dishId, dishName: dishName, description: description, available: available, price: price}),
             success: function (data) {
+                tab="<table>"
+                tableInit()
                 for (let i = 0; i < data.length; i++) {
                     console.log(data)
                     let line = data[i]
@@ -250,12 +278,27 @@
         event.preventDefault()
         let apiUrl = "/api/delDish"
         let id = $("#dishIdDel").val();
+        if(id === ""){
+            alert("Must enter ID to delete")
+            return
+        }
         $.ajax({
             url: apiUrl,
-            type: 'POST',
+            type: 'DELETE',
             data:{dishId: id},
             success: function(data){
                 alert(data)
+                tab="<table>"
+                newApi = "/api/dished"
+                tableInit()
+                $.get(newApi, function(data){
+                    for(let i = 0; i<data.length; i++){
+                        let line = data[i];
+                        tableSeed(line)
+                    }
+                    tab+="</table>"
+                    $("#dishDiv").html(tab)
+                })
 
             },
             error: function(data){
