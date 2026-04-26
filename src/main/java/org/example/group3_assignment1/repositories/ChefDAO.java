@@ -31,9 +31,9 @@ public interface ChefDAO extends JpaRepository<Chef, Long> {
     List<String> findAllSpecialty();
 
 
-    @Modifying
-    @Query("UPDATE Chef c set c.salary = :salary, c.yrsOfExperience = :yrsOfExperiencewhere, c.email = :email WHERE c.chefId = :chefId ")
-    void updateProgressionById(@Param("chefId") Long chefId,@Param("email") String email,@Param("salary") Double salary, @Param("yrsOfExperience") Double yrsOfExperience);
+    @Query("UPDATE Chef c SET c.firstName = :firstName, c.lastName = :lastName, c.email = :email, c.salary = :salary, c.specialty = :specialty, c.yrsOfExperience = :yrsOfExperience WHERE c.chefId = :chefId")
+    @Modifying(clearAutomatically = true)
+    void updateChefById(@Param("chefId") Long chefId, @Param("firstName") String firstName, @Param("lastName") String lastName, @Param("email") String email, @Param("salary") Double salary, @Param("specialty") String specialty, @Param("yrsOfExperience") Double yrsOfExperience);
 
     boolean existsByLastName(String lastName);
 

@@ -29,17 +29,10 @@ public interface DishDAO extends JpaRepository<Dish, Long> {
 
     List<Dish> findByPriceLessThan(double price);
 
-    @Modifying
-    @Query("Update Dish d set d.available = :available where d.dishId = :id")
-    void updateAvailableByDishId(@Param("id") Long dishId, @Param("available") boolean availability);
+    @Modifying(clearAutomatically = true)
+    @Query("Update Dish d set d.dishName = :dishName, d.description = :description, d.category = :category,d.price = :price, d.available = :available where d.dishId = :id")
+    void updateDishById(@Param("id") Long dishId, @Param("dishName") String dishName, @Param("description") String description, @Param("category") String category,@Param("price") Double price, @Param("available") boolean available);
 
-    @Modifying
-    @Query("Update Dish d set d.price = :price where d.dishId = :id")
-    void updatePriceByDishId(@Param("id") Long dishId, @Param("price") Double price);
-
-    @Modifying
-    @Query("Update Dish d set d.description = :description where d.dishId = :id")
-    void updateDescriptionByDishId( @Param("id") Long dishId, @Param("description") String description);
 
 
     void deleteByDishId(long dishId);
